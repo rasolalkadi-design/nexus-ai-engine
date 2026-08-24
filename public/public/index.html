@@ -3,10 +3,1004 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NEXUS AI</title>
+  <title>NEXUS — AI Operating System</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #050505;
+      --panel: #0d0d0d;
+      --panel2: #111111;
+      --text: #f5f5f5;
+      --muted: #8b8b8b;
+      --line: #242424;
+      --lime: #c8ff00;
+      --green: #0b6b12;
+      --danger: #ff5555;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .container {
+      width: min(1100px, calc(100% - 32px));
+      margin: auto;
+    }
+
+    header {
+      height: 76px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      letter-spacing: 6px;
+      font-size: 20px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      background: var(--lime);
+      border-radius: 50%;
+      box-shadow: 0 0 15px rgba(200,255,0,.6);
+    }
+
+    .lang {
+      border: 1px solid #333;
+      background: #161616;
+      color: white;
+      padding: 10px 16px;
+      border-radius: 30px;
+    }
+
+    .hero {
+      padding: 90px 0 50px;
+    }
+
+    .eyebrow {
+      color: var(--lime);
+      letter-spacing: 4px;
+      font-size: 13px;
+      margin-bottom: 25px;
+    }
+
+    h1 {
+      font-size: clamp(52px, 9vw, 100px);
+      line-height: .9;
+      letter-spacing: -5px;
+      max-width: 900px;
+      margin-bottom: 35px;
+    }
+
+    h1 span {
+      color: var(--lime);
+    }
+
+    .hero p {
+      color: #9b9b9b;
+      font-size: 20px;
+      line-height: 1.7;
+      max-width: 700px;
+      margin-bottom: 35px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: 1px solid #333;
+      background: transparent;
+      color: white;
+      padding: 16px 24px;
+      border-radius: 8px;
+      font-weight: 700;
+    }
+
+    .btn.primary {
+      background: #075f0b;
+      border-color: #075f0b;
+    }
+
+    .btn.primary:hover {
+      background: #0a7a10;
+    }
+
+    .btn:hover {
+      border-color: #666;
+    }
+
+    .section {
+      padding: 50px 0;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 30px;
+    }
+
+    .panel-title {
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 3px;
+      margin-bottom: 25px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+
+    .step {
+      border: 1px solid var(--line);
+      background: #0b0b0b;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    .step.active {
+      border-color: var(--lime);
+    }
+
+    .step-number {
+      color: var(--lime);
+      font-size: 12px;
+      margin-bottom: 12px;
+    }
+
+    .step strong {
+      display: block;
+      margin-bottom: 7px;
+    }
+
+    .step small {
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    label {
+      display: block;
+      color: #bdbdbd;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      background: #080808;
+      border: 1px solid #292929;
+      color: white;
+      border-radius: 8px;
+      padding: 14px;
+      outline: none;
+      margin-bottom: 18px;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--lime);
+    }
+
+    textarea {
+      min-height: 130px;
+      resize: vertical;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .result {
+      margin-top: 25px;
+      border: 1px solid #252525;
+      background: #080808;
+      border-radius: 10px;
+      padding: 20px;
+    }
+
+    .result h3 {
+      margin-bottom: 10px;
+    }
+
+    .result p {
+      color: #999;
+      line-height: 1.6;
+    }
+
+    .success {
+      color: var(--lime);
+    }
+
+    .error {
+      color: var(--danger);
+    }
+
+    .loader {
+      display: inline-block;
+      width: 15px;
+      height: 15px;
+      border: 2px solid #555;
+      border-top-color: var(--lime);
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .agent-card {
+      border: 1px solid #303030;
+      border-radius: 12px;
+      padding: 25px;
+      background: #0a0a0a;
+    }
+
+    .agent-name {
+      font-size: 30px;
+      font-weight: 800;
+      color: var(--lime);
+      margin-bottom: 10px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 7px 10px;
+      border-radius: 20px;
+      background: #162000;
+      color: var(--lime);
+      font-size: 11px;
+      letter-spacing: 1px;
+      margin-bottom: 15px;
+    }
+
+    .chat {
+      height: 360px;
+      overflow-y: auto;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 15px;
+      background: #070707;
+      margin-bottom: 15px;
+    }
+
+    .msg {
+      max-width: 85%;
+      padding: 12px 15px;
+      border-radius: 12px;
+      margin-bottom: 12px;
+      line-height: 1.5;
+      white-space: pre-wrap;
+    }
+
+    .msg.user {
+      margin-left: auto;
+      background: #183000;
+    }
+
+    .msg.ai {
+      background: #171717;
+      border: 1px solid #252525;
+    }
+
+    .chat-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .chat-row input {
+      margin: 0;
+    }
+
+    footer {
+      padding: 60px 0;
+      color: #666;
+      font-size: 12px;
+      letter-spacing: 2px;
+    }
+
+    @media (max-width: 700px) {
+      .hero {
+        padding-top: 60px;
+      }
+
+      h1 {
+        letter-spacing: -3px;
+      }
+
+      .grid,
+      .steps {
+        grid-template-columns: 1fr;
+      }
+
+      .panel {
+        padding: 20px;
+      }
+
+      .hero p {
+        font-size: 17px;
+      }
+    }
+  </style>
 </head>
+
 <body>
-  <h1>NEXUS AI Engine</h1>
-  <p>Engine is running.</p>
+
+<header>
+  <div class="container nav">
+    <div class="logo">
+      <span class="dot"></span>
+      NEXUS
+    </div>
+
+    <button class="lang" onclick="toggleLanguage()">AR</button>
+  </div>
+</header>
+
+<main>
+
+  <section class="hero">
+    <div class="container">
+
+      <div class="eyebrow">AI OPERATING SYSTEM / 01</div>
+
+      <h1>
+        Your business.<br>
+        <span>Rebuilt with AI.</span>
+      </h1>
+
+      <p>
+        NEXUS diagnoses your workflow, understands your business,
+        and creates an AI employee ready to communicate with your customers.
+      </p>
+
+      <div class="actions">
+        <button class="btn primary" onclick="showScanner()">
+          Scan my business ↗
+        </button>
+
+        <button class="btn" onclick="document.getElementById('system').scrollIntoView({behavior:'smooth'})">
+          See the system
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="section hidden" id="scanner">
+    <div class="container">
+
+      <div class="panel">
+
+        <div class="panel-title">
+          NEXUS / BUSINESS ONBOARDING
+        </div>
+
+        <div class="steps">
+          <div class="step active" id="step1">
+            <div class="step-number">01</div>
+            <strong>Business</strong>
+            <small>Tell NEXUS where your business lives.</small>
+          </div>
+
+          <div class="step" id="step2">
+            <div class="step-number">02</div>
+            <strong>Diagnosis</strong>
+            <small>NEXUS extracts your public business knowledge.</small>
+          </div>
+
+          <div class="step" id="step3">
+            <div class="step-number">03</div>
+            <strong>AI Employee</strong>
+            <small>Create and test your first AI employee.</small>
+          </div>
+        </div>
+
+        <!-- BUSINESS FORM -->
+        <div id="businessForm">
+
+          <div class="grid">
+
+            <div>
+              <label>Your name</label>
+              <input id="customerName" placeholder="Your name">
+            </div>
+
+            <div>
+              <label>Email</label>
+              <input id="customerEmail" type="email" placeholder="you@company.com">
+            </div>
+
+          </div>
+
+          <label>Business name</label>
+          <input id="businessName" placeholder="Example: NEXUS Coffee">
+
+          <label>Business website</label>
+          <input id="businessUrl" placeholder="https://example.com">
+
+          <button class="btn primary" onclick="analyzeBusiness()">
+            Analyze my business →
+          </button>
+
+          <div id="analysisResult"></div>
+
+        </div>
+
+        <!-- AGENT FORM -->
+        <div id="agentForm" class="hidden">
+
+          <div class="result" id="businessSummary"></div>
+
+          <br>
+
+          <div class="grid">
+
+            <div>
+              <label>AI employee job</label>
+
+              <select id="job">
+                <option value="sales">FOLLOWER — Sales & Leads</option>
+                <option value="support">RECEPTION — Customer Support</option>
+                <option value="booking">SCHEDULER — Bookings</option>
+                <option value="content">STUDIO — Content</option>
+                <option value="operations">ANALYST — Operations</option>
+              </select>
+            </div>
+
+            <div>
+              <label>Channel</label>
+
+              <select id="channel">
+                <option>Website chat</option>
+                <option>Instagram</option>
+                <option>Facebook</option>
+                <option>WhatsApp</option>
+              </select>
+            </div>
+
+          </div>
+
+          <label>AI tone</label>
+
+          <select id="tone">
+            <option>Professional & friendly</option>
+            <option>Friendly & casual</option>
+            <option>Luxury & premium</option>
+            <option>Direct & sales-focused</option>
+          </select>
+
+          <label>Human escalation rule</label>
+
+          <textarea id="escalation">Ask a human when unsure or when the customer requests something outside verified business information.</textarea>
+
+          <button class="btn primary" onclick="createAgent()">
+            Create my AI employee →
+          </button>
+
+          <div id="agentResult"></div>
+
+        </div>
+
+        <!-- CHAT -->
+        <div id="chatSection" class="hidden">
+
+          <div class="result">
+            <div class="agent-card">
+
+              <div class="badge">LIVE AI EMPLOYEE</div>
+
+              <div class="agent-name" id="agentName">
+                NEXUS
+              </div>
+
+              <p id="agentSummary"></p>
+
+            </div>
+          </div>
+
+          <br>
+
+          <div class="panel-title">
+            TEST YOUR AI EMPLOYEE
+          </div>
+
+          <div class="chat" id="chat"></div>
+
+          <div class="chat-row">
+            <input
+              id="chatInput"
+              placeholder="Ask your AI employee something..."
+              onkeydown="if(event.key==='Enter') sendMessage()"
+            >
+
+            <button class="btn primary" onclick="sendMessage()">
+              Send
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <section class="section" id="system">
+
+    <div class="container">
+
+      <div class="panel">
+
+        <div class="panel-title">
+          NEXUS / CONTROL ROOM
+        </div>
+
+        <div class="grid">
+
+          <div class="step">
+            <div class="step-number">01</div>
+            <strong>UNDERSTAND</strong>
+            <small>
+              NEXUS analyzes your business information and creates verified knowledge.
+            </small>
+          </div>
+
+          <div class="step">
+            <div class="step-number">02</div>
+            <strong>BUILD</strong>
+            <small>
+              Your business gets a dedicated AI employee with a defined job and rules.
+            </small>
+          </div>
+
+          <div class="step">
+            <div class="step-number">03</div>
+            <strong>CONNECT</strong>
+            <small>
+              The employee can later be connected to customer channels such as Instagram,
+              Facebook and WhatsApp.
+            </small>
+          </div>
+
+          <div class="step">
+            <div class="step-number">04</div>
+            <strong>CONTROL</strong>
+            <small>
+              Human escalation and approved actions keep the business in control.
+            </small>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+
+<footer>
+  <div class="container">
+    NEXUS AI OPERATING SYSTEM
+  </div>
+</footer>
+
+
+<script>
+
+  const API = window.location.origin;
+
+  let analyzedKnowledge = null;
+  let currentAgentId = null;
+
+  function showScanner() {
+    const scanner = document.getElementById("scanner");
+
+    scanner.classList.remove("hidden");
+
+    scanner.scrollIntoView({
+      behavior: "smooth"
+    });
+  }
+
+
+  async function analyzeBusiness() {
+
+    const url = document.getElementById("businessUrl").value.trim();
+    const businessName = document.getElementById("businessName").value.trim();
+
+    const result = document.getElementById("analysisResult");
+
+    if (!businessName) {
+      result.innerHTML =
+        '<div class="result error">Please enter your business name.</div>';
+      return;
+    }
+
+    if (!url) {
+      result.innerHTML =
+        '<div class="result error">Please enter your business website.</div>';
+      return;
+    }
+
+    result.innerHTML =
+      '<div class="result"><span class="loader"></span> NEXUS is analyzing your business...</div>';
+
+    try {
+
+      const response = await fetch(API + "/api/business/analyze", {
+
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+          url: url
+        })
+
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Business analysis failed.");
+      }
+
+      analyzedKnowledge = data.knowledge;
+
+      document.getElementById("step1").classList.remove("active");
+      document.getElementById("step2").classList.add("active");
+
+      document.getElementById("businessForm").classList.add("hidden");
+      document.getElementById("agentForm").classList.remove("hidden");
+
+      const description =
+        analyzedKnowledge.description ||
+        "NEXUS successfully read the public business source.";
+
+      document.getElementById("businessSummary").innerHTML = `
+        <h3 class="success">Business analyzed ✓</h3>
+
+        <p>
+          <strong>${escapeHtml(analyzedKnowledge.businessName || businessName)}</strong>
+        </p>
+
+        <p>
+          ${escapeHtml(description)}
+        </p>
+
+        <br>
+
+        <p>
+          Source: ${escapeHtml(analyzedKnowledge.sourceType || "Website")}
+        </p>
+      `;
+
+    } catch (error) {
+
+      result.innerHTML =
+        `<div class="result error">${escapeHtml(error.message)}</div>`;
+
+    }
+
+  }
+
+
+  async function createAgent() {
+
+    if (!analyzedKnowledge) {
+
+      document.getElementById("agentResult").innerHTML =
+        '<div class="result error">Analyze the business first.</div>';
+
+      return;
+    }
+
+    const name =
+      document.getElementById("customerName").value.trim() ||
+      "NEXUS Customer";
+
+    const email =
+      document.getElementById("customerEmail").value.trim() ||
+      `customer-${Date.now()}@nexus.local`;
+
+    const business =
+      document.getElementById("businessName").value.trim();
+
+    const job =
+      document.getElementById("job").value;
+
+    const channel =
+      document.getElementById("channel").value;
+
+    const tone =
+      document.getElementById("tone").value;
+
+    const escalation =
+      document.getElementById("escalation").value;
+
+    const agentResult =
+      document.getElementById("agentResult");
+
+    agentResult.innerHTML =
+      '<div class="result"><span class="loader"></span> Creating your AI employee...</div>';
+
+    try {
+
+      const knowledgeText = buildKnowledge();
+
+      const response = await fetch(API + "/api/agent/generate", {
+
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+
+          name,
+          email,
+          business,
+
+          job,
+          channel,
+          tone,
+          escalation,
+
+          knowledge: knowledgeText,
+
+          actions: [
+            "Reply to customers",
+            "Qualify customer intent",
+            "Escalate uncertain requests"
+          ]
+
+        })
+
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Agent creation failed.");
+      }
+
+      currentAgentId = data.agentId;
+
+      document.getElementById("step2").classList.remove("active");
+      document.getElementById("step3").classList.add("active");
+
+      document.getElementById("agentForm").classList.add("hidden");
+      document.getElementById("chatSection").classList.remove("hidden");
+
+      document.getElementById("agentName").textContent =
+        data.agentName;
+
+      document.getElementById("agentSummary").textContent =
+        data.summary;
+
+      agentResult.innerHTML = "";
+
+      addMessage(
+        "ai",
+        "Your AI employee is ready. Ask me something about the business."
+      );
+
+    } catch (error) {
+
+      agentResult.innerHTML =
+        `<div class="result error">${escapeHtml(error.message)}</div>`;
+
+    }
+
+  }
+
+
+  function buildKnowledge() {
+
+    if (!analyzedKnowledge) {
+      return "";
+    }
+
+    return [
+
+      `BUSINESS NAME: ${analyzedKnowledge.businessName || ""}`,
+
+      `SOURCE TYPE: ${analyzedKnowledge.sourceType || ""}`,
+
+      `SOURCE URL: ${analyzedKnowledge.sourceUrl || ""}`,
+
+      `DESCRIPTION: ${analyzedKnowledge.description || ""}`,
+
+      `HEADINGS:
+${(analyzedKnowledge.headings || []).join("\n")}`,
+
+      `PAGE TEXT:
+${analyzedKnowledge.pageText || ""}`,
+
+      `USEFUL LINKS:
+${(analyzedKnowledge.usefulLinks || [])
+        .map(x => `${x.text} — ${x.href}`)
+        .join("\n")}`
+
+    ].join("\n\n");
+
+  }
+
+
+  async function sendMessage() {
+
+    const input =
+      document.getElementById("chatInput");
+
+    const message =
+      input.value.trim();
+
+    if (!message || !currentAgentId) {
+      return;
+    }
+
+    addMessage("user", message);
+
+    input.value = "";
+
+    addMessage(
+      "ai",
+      "Thinking..."
+    );
+
+    const chat =
+      document.getElementById("chat");
+
+    const thinkingMessage =
+      chat.lastElementChild;
+
+    try {
+
+      const response = await fetch(API + "/api/agent/chat", {
+
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+
+          agentId: currentAgentId,
+
+          message,
+
+          channel:
+            document.getElementById("channel").value
+
+        })
+
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "AI response failed.");
+      }
+
+      thinkingMessage.remove();
+
+      addMessage(
+        "ai",
+        data.response
+      );
+
+    } catch (error) {
+
+      thinkingMessage.remove();
+
+      addMessage(
+        "ai",
+        "Error: " + error.message
+      );
+
+    }
+
+  }
+
+
+  function addMessage(type, text) {
+
+    const chat =
+      document.getElementById("chat");
+
+    const message =
+      document.createElement("div");
+
+    message.className =
+      "msg " + type;
+
+    message.textContent = text;
+
+    chat.appendChild(message);
+
+    chat.scrollTop =
+      chat.scrollHeight;
+
+  }
+
+
+  function escapeHtml(value) {
+
+    return String(value || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+
+  }
+
+
+  function toggleLanguage() {
+
+    alert(
+      "Arabic interface will be enabled in the next NEXUS update."
+    );
+
+  }
+
+</script>
+
 </body>
 </html>
