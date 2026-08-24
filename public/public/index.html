@@ -465,8 +465,8 @@
           <label>Business name</label>
           <input id="businessName" placeholder="Example: NEXUS Coffee">
 
-          <label>Business website</label>
-          <input id="businessUrl" placeholder="https://example.com">
+          <label>Business website / Instagram / Facebook</label>
+<input id="businessUrl" placeholder="https://yourbusiness.com or https://instagram.com/yourbusiness">
 
           <button class="btn primary" onclick="analyzeBusiness()">
             Analyze my business →
@@ -670,7 +670,7 @@
 
     if (!url) {
       result.innerHTML =
-        '<div class="result error">Please enter your business website.</div>';
+        '<div class="result error">Please enter your business website, Instagram, or Facebook URL.</div>';
       return;
     }
 
