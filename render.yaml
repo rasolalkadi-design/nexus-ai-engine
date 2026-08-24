@@ -1,24 +1,7 @@
 services:
   - type: web
     name: nexus-ai-engine
-    runtime: node
+    env: docker
     plan: free
-    buildCommand: npm install --omit=dev
-    startCommand: npm start
-    envVars:
-      - key: NODE_VERSION
-        value: "20"
-      - key: OPENAI_MODEL
-        value: "gpt-5.6-luna"
-      - key: BASE_URL
-        sync: false
-      - key: OPENAI_API_KEY
-        sync: false
-      - key: META_APP_ID
-        sync: false
-      - key: META_APP_SECRET
-        sync: false
-      - key: META_VERIFY_TOKEN
-        sync: false
-      - key: META_REDIRECT_URI
-        sync: false
+    autoDeploy: true
+    healthCheckPath: /api/health
