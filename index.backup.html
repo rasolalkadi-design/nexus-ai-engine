@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>NEXUS — AI Operating System</title>
+<meta name="description" content="NEXUS diagnoses your business, builds your first AI workflow and gives you a clear path to activation.">
+<style>
+:root{--bg:#060706;--panel:#0d100d;--panel2:#111411;--fg:#f4f6ee;--muted:#8c938b;--line:#252b25;--acid:#d4ff3f;--danger:#ff6b6b}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--fg);font-family:Inter,Arial,sans-serif;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.035;background-image:radial-gradient(#fff 1px,transparent 1px);background-size:5px 5px;z-index:99}
+button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:none!important}
+header{position:sticky;top:0;z-index:50;height:70px;padding:0 5vw;border-bottom:1px solid var(--line);background:rgba(6,7,6,.86);backdrop-filter:blur(16px);display:flex;align-items:center;justify-content:space-between}
+.logo{font-weight:900;letter-spacing:.18em}.logo i{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--acid);box-shadow:0 0 18px var(--acid);margin-right:9px}
+nav{display:flex;gap:25px}nav a{color:#9ba19a;text-decoration:none;font-size:13px}nav a:hover{color:#fff}.header-right{display:flex;gap:9px;align-items:center}.lang{border:1px solid #3a4139;background:#101310;color:#fff;border-radius:99px;padding:9px 12px}
+.btn{display:inline-flex;align-items:center;justify-content:center;text-align:center;border:0;border-radius:5px;padding:15px 20px;background:var(--acid);color:#070907;font-weight:900;text-decoration:none;cursor:pointer}.btn:hover{box-shadow:0 12px 35px #d4ff3f18;transform:translateY(-1px)}.btn.secondary{background:#171b17;color:#fff;border:1px solid #3a4139}.btn.full{width:100%}.btn.disabled{opacity:.45;pointer-events:none}
+.hero{min-height:calc(100vh - 70px);padding:8vw 7vw;display:grid;grid-template-columns:1.05fr .95fr;gap:6vw;align-items:center;border-bottom:1px solid var(--line)}
+.kicker,.micro,.console-label,.step-label,.field-label,.status{font:10px monospace;letter-spacing:.14em;color:#747b74}.kicker b,.status.live{color:var(--acid)}
+h1{font-size:clamp(56px,8vw,112px);line-height:.86;letter-spacing:-.075em;margin:18px 0 28px}em{font-style:normal;color:var(--acid)}.hero p{font-size:18px;line-height:1.65;color:#a4aaa3;max-width:620px}.hero-actions{display:flex;gap:13px;flex-wrap:wrap;margin:32px 0}.micro{display:flex;gap:9px;flex-wrap:wrap}
+.console{height:540px;border:1px solid #303730;padding:18px;position:relative;overflow:hidden;background:radial-gradient(circle at 50% 47%,#172315 0,#0b0e0b 38%,#060706 72%)}.console-top,.console-bottom{display:flex;justify-content:space-between;font:10px monospace;color:#707770}.console-top span:last-child,.console-bottom b{color:var(--acid)}
+.core{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:105px;height:105px;border:1px solid var(--acid);border-radius:50%;display:grid;place-items:center;font-size:38px;font-weight:900;color:var(--acid);box-shadow:0 0 70px #d4ff3f14}.orbit{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);border:1px solid #252d25;border-radius:50%;width:220px;height:220px}.orbit.two{width:350px;height:350px}.orbit.three{width:490px;height:490px}.node{position:absolute;border:1px solid #353c35;background:#0a0c0a;padding:8px 10px;font:9px monospace;color:#aeb4ac}.n1{left:6%;top:30%}.n2{right:8%;top:18%}.n3{right:5%;bottom:27%}.n4{left:10%;bottom:14%}
+.marquee{overflow:hidden;white-space:nowrap;border-bottom:1px solid var(--line);padding:14px;font:10px monospace;color:#747b74}.marquee span{color:var(--acid);margin:0 14px}
+.section{padding:9vw 7vw;border-bottom:1px solid var(--line)}.section-head{display:grid;grid-template-columns:1fr .65fr;gap:7vw;margin-bottom:55px}.section h2{font-size:clamp(44px,6vw,80px);line-height:.92;letter-spacing:-.065em;margin:15px 0}.section-head p,.section>p{color:#8d948d;line-height:1.7;max-width:520px;align-self:end}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.card{border:1px solid #303730;background:#0b0e0b;padding:25px;min-height:240px}.card:hover{border-color:#53604f}.card .num{font:10px monospace;color:var(--acid)}.card h3{margin-top:70px;font-size:23px}.card p{color:#858c85;line-height:1.55}
+.scan-wrap{max-width:1000px;border:1px solid #303730;background:#0a0d0a;padding:30px}.progress{height:2px;background:#262d26;margin-bottom:40px}.progress i{display:block;height:100%;width:0;background:var(--acid);transition:.25s}.qtop{display:flex;justify-content:space-between}.question{font-size:clamp(30px,4vw,52px);letter-spacing:-.05em;line-height:1;margin:15px 0 30px}.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}.opt{background:#111411;color:#ddd;border:1px solid #303730;padding:18px;text-align:left;min-height:62px}.opt:hover,.opt.selected{border-color:var(--acid);color:var(--acid);background:#131a0d}.scan-actions{display:flex;justify-content:space-between;gap:10px;margin-top:30px}.small{padding:13px 17px;border:1px solid #3a4139;background:#151815;color:#ddd}.small.next{background:var(--acid);border-color:var(--acid);color:#070907;font-weight:900}
+.result-card{margin-top:20px;border:1px solid var(--acid);padding:35px;background:radial-gradient(circle at 85% 10%,#d4ff3f10,transparent 35%)}.score{font-size:92px;font-weight:900;letter-spacing:-.08em}.score small{font:12px monospace;color:#666}.result-title{font-size:45px;color:var(--acid);font-weight:900;letter-spacing:-.05em;margin:10px 0}.result-card p{color:#a4aaa3;line-height:1.6;max-width:700px}.leaks{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:25px 0}.leak{border:1px solid #303730;padding:17px}.leak strong{display:block;margin-bottom:7px}.leak span{font:10px monospace;color:var(--acid)}
+.builder{background:#0a0d0a}.builder-box{max-width:900px;border:1px solid #303730;padding:30px}.field{margin:0 0 22px}.field-label{display:block;margin-bottom:8px}.field input,.field select,.field textarea{width:100%;background:#101310;color:#fff;border:1px solid #343b34;padding:15px;outline:none}.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--acid)}.checks{display:grid;gap:9px}.check{padding:16px;border:1px solid #303730;background:#101310;color:#ddd;text-align:left}.check.selected{border-color:var(--acid);color:var(--acid);background:#141b0d}
+.preview{border:1px solid #303730;margin-top:20px;padding:25px;background:#080a08}.preview-top{display:flex;justify-content:space-between}.preview-title{font-size:31px;margin:25px 0 10px}.preview-line{color:#929992;line-height:1.6}.pill{display:inline-block;border:1px solid #3a4139;padding:6px 9px;margin:4px 4px 0 0;font:9px monospace;color:#b8beb7}
+.pricing{display:grid;grid-template-columns:1fr .75fr;gap:8vw;align-items:center}.price{border:1px solid var(--acid);background:#0c1109;padding:30px}.amount{font-size:82px;font-weight:900;letter-spacing:-.08em;margin:35px 0 20px}.price ul{list-style:none;padding:0;margin:0 0 25px}.price li{padding:11px 0;border-bottom:1px solid #273024;color:#bbb}.price li:before{content:"✓";color:var(--acid);margin-right:10px}
+.checkout{max-width:850px;border:1px solid #303730;padding:30px;background:#0a0d0a}.order{display:flex;justify-content:space-between;border-bottom:1px solid #303730;padding-bottom:20px;margin-bottom:25px}.total{font-size:32px;font-weight:900}.secure{font:10px monospace;color:#6f766f;margin-top:15px}
+.success{border:1px solid var(--acid);padding:35px;background:#0c1109}.success .big{font-size:60px;font-weight:900;color:var(--acid);letter-spacing:-.07em}
+.final{text-align:center;padding:12vw 7vw;background:radial-gradient(circle at 50% 35%,#15200e 0,transparent 42%)}.final h2{font-size:clamp(45px,7vw,88px);line-height:.9;letter-spacing:-.065em}footer{display:flex;justify-content:space-between;padding:25px 7vw;font:10px monospace;color:#626962}
+@media(max-width:900px){nav{display:none}.hero,.pricing,.section-head{grid-template-columns:1fr}.hero{padding:15vw 5vw}.console{height:430px}.grid4{grid-template-columns:1fr 1fr}.section{padding:14vw 5vw}.opts,.leaks{grid-template-columns:1fr}}
+@media(max-width:600px){header{padding:0 18px}.header-right .btn{display:none}.hero{padding:20vw 20px}.hero h1{font-size:57px}.console{height:370px}.orbit{width:150px;height:150px}.orbit.two{width:240px;height:240px}.orbit.three{width:320px;height:320px}.node{font-size:8px}.section{padding:18vw 20px}.grid4{grid-template-columns:1fr}.scan-wrap,.builder-box,.checkout{padding:20px}.amount{font-size:65px}.score{font-size:70px}.result-title{font-size:36px}footer{padding:20px;flex-direction:column}}
+[dir=rtl]{font-family:Arial,Tahoma,sans-serif}[dir=rtl] .opt,[dir=rtl] .check{text-align:right}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo"><i></i>NEXUS</div>
+  <nav><a href="#scan" data-en="Scan" data-ar="الفحص">Scan</a><a href="#agents" data-en="Agents" data-ar="الوكلاء">Agents</a><a href="#pricing" data-en="Pricing" data-ar="الأسعار">Pricing</a></nav>
+  <div class="header-right"><button class="lang" id="lang">AR</button><a class="btn" href="#scan" data-en="Start scan" data-ar="ابدأ الفحص">Start scan</a></div>
+</header>
+
+<main>
+<section class="hero">
+  <div>
+    <div class="kicker"><b>●</b> AI OPERATING SYSTEM / 01</div>
+    <h1 data-en="Your business.<br><em>Rebuilt with AI.</em>" data-ar="مشروعك.<br><em>أعد بناءه بالـAI.</em>">Your business.<br><em>Rebuilt with AI.</em></h1>
+    <p data-en="NEXUS diagnoses your workflow, finds the highest-leverage opportunity and walks you from diagnosis to your first AI agent." data-ar="NEXUS يحلل سير عملك، يكتشف أكبر فرصة، ويمشي معك من التشخيص إلى أول وكيل AI.">NEXUS diagnoses your workflow, finds the highest-leverage opportunity and walks you from diagnosis to your first AI agent.</p>
+    <div class="hero-actions"><a class="btn" href="#scan" data-en="Scan my business ↗" data-ar="افحص مشروعي ←">Scan my business ↗</a><a class="btn secondary" href="#system" data-en="See the system" data-ar="شاهد النظام">See the system</a></div>
+    <div class="micro">NO PROMPT JUNK <span>•</span> HUMAN CONTROL <span>•</span> BUILT FOR BUSINESS</div>
+  </div>
+  <div class="console"><div class="console-top"><span>NEXUS / CONTROL ROOM</span><span>LIVE</span></div><div class="orbit"></div><div class="orbit two"></div><div class="orbit three"></div><div class="core">N</div><span class="node n1">SALES</span><span class="node n2">OPS</span><span class="node n3">CONTENT</span><span class="node n4">CUSTOMERS</span><div class="console-bottom"><span>STATUS</span><b>READY</b></div></div>
+</section>
+
+<div class="marquee">SCAN <span>→</span> DIAGNOSE <span>→</span> BUILD <span>→</span> CONFIGURE <span>→</span> ACTIVATE <span>→</span> MEASURE <span>→</span> SCALE</div>
+
+<section class="section" id="system">
+  <div class="section-head"><div><div class="kicker">02 / SYSTEM</div><h2 data-en="Not another AI course.<br><em>A guided system.</em>" data-ar="ليست دورة AI أخرى.<br><em>بل نظام موجّه.</em>">Not another AI course.<br><em>A guided system.</em></h2></div><p data-en="The customer doesn't need to know what to build. NEXUS asks, diagnoses, recommends and configures the next step." data-ar="الزبون لا يحتاج أن يعرف ماذا يبني. NEXUS يسأل، يحلل، يقترح، ثم يضبط الخطوة التالية.">The customer doesn't need to know what to build. NEXUS asks, diagnoses, recommends and configures the next step.</p></div>
+  <div class="grid4"><article class="card"><div class="num">01 / SCAN</div><h3>Find the leak</h3><p>Understand where time, leads and attention are being lost.</p></article><article class="card"><div class="num">02 / DIAGNOSE</div><h3>Choose the target</h3><p>Turn answers into a clear first automation opportunity.</p></article><article class="card"><div class="num">03 / CONFIGURE</div><h3>Build the agent</h3><p>Choose the channel, actions and business context.</p></article><article class="card"><div class="num">04 / ACTIVATE</div><h3>Enter the product</h3><p>Checkout, onboarding and dashboard become the next steps.</p></article></div>
+</section>
+
+<section class="section" id="scan">
+  <div class="section-head"><div><div class="kicker">03 / BUSINESS SCAN</div><h2 data-en="Let's find your<br><em>first win.</em>" data-ar="لنكتشف أول<br><em>نتيجة قوية.</em>">Let's find your<br><em>first win.</em></h2></div><p data-en="12 questions. One diagnosis. One recommended starting point." data-ar="12 سؤالاً. تشخيص واحد. ونقطة بداية مقترحة.">12 questions. One diagnosis. One recommended starting point.</p></div>
+  <div class="scan-wrap"><div class="progress"><i id="bar"></i></div><div id="qa"></div><div class="scan-actions"><button class="small" id="back" disabled>← Back</button><button class="small next" id="next">Continue →</button></div></div>
+  <div id="result" class="result-card hidden"></div>
+</section>
+
+<section class="section builder" id="builder">
+  <div class="section-head"><div><div class="kicker">04 / AGENT BUILDER</div><h2 data-en="Now we build<br><em>your agent.</em>" data-ar="الآن نبني<br><em>وكيلك.</em>">Now we build<br><em>your agent.</em></h2></div><p id="builderIntro">Your diagnosis determines the default agent. You can still customize it before continuing.</p></div>
+  <div class="builder-box">
+    <div class="field"><label class="field-label">BUSINESS NAME</label><input id="biz" placeholder="e.g. Nova Dental Clinic"></div>
+    <div class="field"><label class="field-label">PRIMARY CHANNEL</label><select id="channel"><option>WhatsApp</option><option>Instagram</option><option>Email</option><option>Website chat</option><option>CRM</option></select></div>
+    <div class="field"><label class="field-label">WHAT SHOULD YOUR AGENT DO?</label><div class="checks"><button class="check selected" onclick="toggleCheck(this)">Reply to new leads</button><button class="check selected" onclick="toggleCheck(this)">Follow up after 24 hours</button><button class="check" onclick="toggleCheck(this)">Flag hot leads for me</button><button class="check" onclick="toggleCheck(this)">Summarize conversations</button></div></div>
+    <div class="field"><label class="field-label">TONE</label><select id="tone"><option>Professional & friendly</option><option>Short & direct</option><option>Warm & conversational</option></select></div>
+    <button class="btn full" onclick="configureAgent()">Generate my agent setup ↗</button>
+    <div id="agentPreview" class="preview hidden"></div>
+  </div>
+</section>
+
+<section class="section" id="agents">
+  <div class="section-head"><div><div class="kicker">05 / AI WORKFORCE</div><h2 data-en="Focused agents.<br><em>Clear jobs.</em>" data-ar="وكلاء محددون.<br><em>ومهام واضحة.</em>">Focused agents.<br><em>Clear jobs.</em></h2></div></div>
+  <div class="grid4"><article class="card"><div class="num">SALES / 01</div><h3>FOLLOWER</h3><p>Lead follow-up and pipeline support.</p></article><article class="card"><div class="num">CUSTOMERS / 02</div><h3>RECEPTION</h3><p>Questions, triage and booking support.</p></article><article class="card"><div class="num">CONTENT / 03</div><h3>STUDIO</h3><p>Turn business knowledge into consistent content.</p></article><article class="card"><div class="num">OPS / 04</div><h3>ANALYST</h3><p>Reports, summaries and useful signals.</p></article></div>
+</section>
+
+<section class="section" id="pricing">
+  <div class="pricing"><div><div class="kicker">06 / ACCESS</div><h2 data-en="Start small.<br><em>Build serious.</em>" data-ar="ابدأ صغيراً.<br><em>وابنِ بجدية.</em>">Start small.<br><em>Build serious.</em></h2><p data-en="One product. A guided path from diagnosis to your first AI workflow." data-ar="منتج واحد. مسار موجّه من التشخيص إلى أول سير عمل بالذكاء الاصطناعي.">One product. A guided path from diagnosis to your first AI workflow.</p></div>
+  <div class="price"><div class="kicker">NEXUS CORE / LAUNCH</div><div class="amount">$79</div><ul><li>Business Scanner</li><li>Personalized diagnosis</li><li>10 AI agent blueprints</li><li>Automation playbooks</li><li>Prompt + SOP vault</li><li>Human-control framework</li></ul><a class="btn full" href="#checkout">Continue to checkout ↗</a></div></div>
+</section>
+
+<section class="section hidden" id="checkout">
+  <div class="checkout">
+    <div class="kicker">07 / CHECKOUT</div><h2 style="font-size:48px">Complete your access.</h2>
+    <div class="order"><div><b>NEXUS CORE</b><br><span class="kicker">Lifetime launch access</span></div><div class="total">$79</div></div>
+    <div class="field"><label class="field-label">EMAIL</label><input id="email" type="email" placeholder="you@example.com"></div>
+    <div class="field"><label class="field-label">FULL NAME</label><input id="name" placeholder="Your name"></div>
+    <button class="btn full" onclick="startCheckout()">Pay securely with Stripe ↗</button>
+    <div class="secure">SECURE CHECKOUT / ACCESS ACTIVATES AFTER PAYMENT</div>
+    <div id="checkoutError" style="margin-top:12px;color:#ff8b8b"></div>
+  </div>
+</section>
+
+<section class="section hidden" id="success">
+  <div class="success"><div class="kicker">08 / ACTIVATED</div><div class="big">ACCESS READY.</div><p id="welcome" style="color:#a5ada3;line-height:1.7">Your NEXUS workspace is ready.</p><a class="btn" href="#dashboard">Open my dashboard ↗</a></div>
+</section>
+
+<section class="section hidden" id="dashboard">
+  <div class="section-head"><div><div class="kicker">09 / WORKSPACE</div><h2>Your <em>NEXUS</em><br>workspace.</h2></div><p>Your paid workspace is active. Your first agent is live and ready for testing.</p></div>
+  <div class="grid4"><article class="card"><div class="num">AGENT</div><h3 id="dashAgent">FOLLOWER</h3><p id="dashBusiness">Your business agent.</p></article><article class="card"><div class="num">SETUP</div><h3>ACTIVE</h3><p>Payment confirmed and agent activated automatically.</p></article><article class="card"><div class="num">STATUS</div><h3 style="color:var(--acid)">LIVE</h3><p>AI engine is connected when your server has an AI provider key.</p></article><article class="card"><div class="num">NEXT</div><h3>CONNECT</h3><p>Connect WhatsApp, Instagram, email or other channels using their provider credentials.</p></article></div>
+  <div class="builder-box" style="margin-top:20px">
+    <div class="kicker">LIVE AGENT TEST</div>
+    <div id="chatLog" style="margin:18px 0;max-height:360px;overflow:auto"></div>
+    <div style="display:flex;gap:10px"><input id="chatInput" style="flex:1;background:#101310;color:#fff;border:1px solid #343b34;padding:15px" placeholder="Message your AI agent..."><button class="btn" onclick="sendChat()">Send ↗</button></div>
+  </div>
+</section>
+
+
+<section class="section" id="ai-engine">
+  <div class="section-head">
+    <div><div class="kicker">10 / AI ENGINE</div>
+      <h2>Your agent.<br><em>Actually works.</em></h2>
+    </div>
+    <p>Every customer gets one engine with a selected job, business context, tone, rules and channel configuration. The same engine can power sales, support, booking, content or operations.</p>
+  </div>
+  <div class="builder-box">
+    <div class="field"><label class="field-label">AGENT JOB</label>
+      <select id="liveJob">
+        <option value="sales">Sales & lead follow-up</option>
+        <option value="support">Customer support</option>
+        <option value="booking">Booking & appointment assistant</option>
+        <option value="content">Content assistant</option>
+        <option value="operations">Operations & reporting</option>
+      </select>
+    </div>
+    <div class="field"><label class="field-label">BUSINESS KNOWLEDGE</label>
+      <textarea id="knowledge" rows="6" placeholder="Paste your services, prices, opening hours, policies, FAQs, booking rules, and anything the agent must know."></textarea>
+    </div>
+    <div class="field"><label class="field-label">ESCALATION RULE</label>
+      <select id="escalation">
+        <option>Ask a human when unsure</option>
+        <option>Ask a human for price exceptions</option>
+        <option>Ask a human for complaints</option>
+        <option>Never act without human approval</option>
+      </select>
+    </div>
+    <button class="btn full" onclick="generateLiveAgent()">Generate production agent blueprint ↗</button>
+    <div id="liveAgentResult" class="preview hidden"></div>
+  </div>
+</section>
+<section class="final"><div class="kicker">NEXUS / 2026</div><h2 data-en="Stop collecting AI tools.<br><em>Build a system.</em>" data-ar="توقف عن جمع أدوات AI.<br><em>ابنِ نظاماً.</em>">Stop collecting AI tools.<br><em>Build a system.</em></h2><a class="btn" href="#scan" data-en="Run the free scan ↗" data-ar="ابدأ الفحص المجاني ←">Run the free scan ↗</a></section>
+</main>
+<footer><span>NEXUS © 2026</span><span>AI operations, designed for humans.</span></footer>
+
+<script>
+const questions=[
+ {en:"What type of business do you run?",ar:"ما نوع مشروعك؟",opts:[["Service business","مشروع خدمي"],["E-commerce","تجارة إلكترونية"],["Clinic / professional","عيادة / خدمات مهنية"],["Agency","وكالة"],["Retail","تجزئة"],["Other","أخرى"]]},
+ {en:"Where do most customer conversations happen?",ar:"أين تحدث معظم محادثات العملاء؟",opts:[["WhatsApp","واتساب"],["Instagram","إنستغرام"],["Email","البريد الإلكتروني"],["Phone","الهاتف"],["Website","الموقع"]]},
+ {en:"What consumes most of your time?",ar:"ما أكثر شيء يستهلك وقتك؟",opts:[["Customer messages","رسائل العملاء"],["Sales & follow-up","المبيعات والمتابعة"],["Content","المحتوى"],["Admin","الأعمال الإدارية"],["Reporting","التقارير"],["Operations","العمليات"]]},
+ {en:"How often do you answer the same questions?",ar:"كم مرة تجيب عن الأسئلة نفسها؟",opts:[["Rarely","نادراً"],["A few times a week","بضع مرات أسبوعياً"],["Daily","يومياً"],["Many times a day","مرات كثيرة يومياً"]]},
+ {en:"How do you track new leads?",ar:"كيف تتابع العملاء المحتملين الجدد؟",opts:[["Spreadsheet","جدول بيانات"],["CRM","نظام CRM"],["Inbox / DMs","البريد / الرسائل"],["Memory / manual","ذاكرة / يدوياً"],["We don't track them","لا نتابعهم"]]},
+ {en:"How much content do you create each month?",ar:"كم محتوى تنتج شهرياً؟",opts:[["0–3 pieces","0–3 قطع"],["4–10","4–10"],["11–30","11–30"],["30+","أكثر من 30"]]},
+ {en:"What is your biggest operational headache?",ar:"ما أكبر مشكلة تشغيلية لديك؟",opts:[["Missed follow-ups","متابعات ضائعة"],["Slow replies","ردود بطيئة"],["Too much admin","إدارة كثيرة"],["Messy information","معلومات غير منظمة"],["Inconsistent content","محتوى غير منتظم"]]},
+ {en:"How many people are on the team?",ar:"كم شخصاً في فريقك؟",opts:[["Just me","أنا فقط"],["2–5","2–5"],["6–15","6–15"],["16+","16+"]]},
+ {en:"Do you already use AI at work?",ar:"هل تستخدم AI حالياً في العمل؟",opts:[["Not yet","ليس بعد"],["Sometimes","أحياناً"],["Every week","كل أسبوع"],["Every day","كل يوم"]]},
+ {en:"What would you most like to get back?",ar:"ما الشيء الذي تريد استعادة وقته أكثر؟",opts:[["5+ hours/week","أكثر من 5 ساعات أسبوعياً"],["More sales","مبيعات أكثر"],["Faster service","خدمة أسرع"],["Less admin","إدارة أقل"],["Better consistency","ثبات أفضل"]]},
+ {en:"How comfortable are you with automation?",ar:"ما مدى ارتياحك مع الأتمتة؟",opts:[["Beginner","مبتدئ"],["I use a few tools","أستخدم بعض الأدوات"],["Pretty comfortable","مرتاح نسبياً"],["Advanced","متقدم"]]},
+ {en:"If one task disappeared tomorrow, which would you choose?",ar:"لو اختفت مهمة واحدة غداً، ماذا تختار؟",opts:[["Lead follow-up","متابعة العملاء"],["Customer support","خدمة العملاء"],["Content creation","صناعة المحتوى"],["Reports","التقارير"],["Admin tasks","المهام الإدارية"]]}
+];
+let idx=0,answers=[],diagnosis={agent:"FOLLOWER",score:0,title:"Lead Follow-up",reason:""};
+const qa=document.getElementById("qa"),bar=document.getElementById("bar"),next=document.getElementById("next"),back=document.getElementById("back");
+function currentLang(){return document.documentElement.lang==="ar"?"ar":"en"}
+function renderQ(){
+ const q=questions[idx],l=currentLang();
+ qa.innerHTML='<div class="qtop"><span class="step-label">'+String(idx+1).padStart(2,"0")+' / '+questions.length+'</span><span class="status">'+Math.round(idx/questions.length*100)+'%</span></div><div class="question">'+q[l]+'</div><div class="opts">'+q.opts.map((o,j)=>'<button class="opt '+(answers[idx]===j?'selected':'')+'" onclick="pick('+j+')">'+o[l==="ar"?1:0]+'</button>').join("")+'</div>';
+ bar.style.width=(idx/questions.length*100)+"%";back.disabled=idx===0;next.textContent=idx===questions.length-1?(l==="ar"?"حلّل النتيجة ←":"Analyze my business →"):(l==="ar"?"متابعة ←":"Continue →");
+}
+function pick(j){answers[idx]=j;renderQ()}
+back.onclick=()=>{if(idx>0){idx--;renderQ()}}
+next.onclick=()=>{if(answers[idx]===undefined)return;if(idx<questions.length-1){idx++;renderQ()}else{diagnose()}}
+function diagnose(){
+ let sales=0,cust=0,content=0,ops=0;
+ answers.forEach((a,i)=>{const text=(questions[i].opts[a]||[""])[0];if(/sales|follow-up|lead/i.test(text))sales+=3;if(/message|customer|question|reply|support/i.test(text))cust+=3;if(/content/i.test(text))content+=3;if(/admin|report|operations|information/i.test(text))ops+=3});
+ const arr=[["FOLLOWER",sales+6,"Lead Follow-up"],["RECEPTION",cust+5,"Customer Response"],["STUDIO",content+4,"Content Production"],["ANALYST",ops+4,"Operations & Reporting"]].sort((a,b)=>b[1]-a[1]);
+ diagnosis.agent=arr[0][0];diagnosis.title=arr[0][2];diagnosis.score=Math.min(96,58+arr[0][1]);diagnosis.reason="Your answers suggest this is the highest-leverage place to start. NEXUS recommends one narrow workflow first, then expansion.";
+ const result=document.getElementById("result");result.classList.remove("hidden");
+ result.innerHTML='<div class="step-label">NEXUS / DIAGNOSTIC</div><div class="score">'+diagnosis.score+'<small>/100</small></div><div class="step-label">FIRST AUTOMATION TARGET</div><div class="result-title">'+diagnosis.agent+' — '+diagnosis.title+'</div><p>'+diagnosis.reason+'</p><div class="leaks">'+arr.slice(0,3).map((x,i)=>'<div class="leak"><strong>'+x[2]+'</strong><span>'+(i===0?"HIGH":i===1?"MEDIUM":"WATCH")+'</span></div>').join("")+'</div><a class="btn" href="#builder" onclick="prefillBuilder()">Build my first AI agent ↗</a>';
+ bar.style.width="100%";result.scrollIntoView({behavior:"smooth",block:"center"});
+}
+function prefillBuilder(){document.getElementById("builderIntro").textContent="Recommended agent: "+diagnosis.agent+" — "+diagnosis.title+". Customize it below, then generate your setup."}
+function toggleCheck(el){el.classList.toggle("selected")}
+function configureAgent(){
+ const biz=document.getElementById("biz").value.trim()||"Your business",channel=document.getElementById("channel").value,tone=document.getElementById("tone").value;
+ const actions=[...document.querySelectorAll(".check.selected")].map(x=>x.textContent.trim());
+ const p=document.getElementById("agentPreview");p.classList.remove("hidden");
+ p.innerHTML='<div class="preview-top"><span class="step-label">CONFIGURED AGENT</span><span class="status live">READY</span></div><div class="preview-title">'+diagnosis.agent+' / '+diagnosis.title+'</div><div class="preview-line">Built for <b>'+biz+'</b>, working through <b>'+channel+'</b>, with a <b>'+tone.toLowerCase()+'</b> tone.</div><div style="margin-top:15px">'+actions.map(x=>'<span class="pill">'+x+'</span>').join("")+'</div><div style="margin-top:25px"><a class="btn full" href="#pricing">Continue to NEXUS Core ↗</a></div>';
+ p.scrollIntoView({behavior:"smooth",block:"center"});
+}
+document.querySelector('a[href="#checkout"]').onclick=()=>{document.getElementById("checkout").classList.remove("hidden")}
+async function startCheckout(){
+  const email=document.getElementById("email").value.trim(),name=document.getElementById("name").value.trim();
+  const business=document.getElementById("biz").value.trim()||"Your business";
+  const channel=document.getElementById("channel").value,tone=document.getElementById("tone").value;
+  const jobMap={FOLLOWER:"sales",RECEPTION:"support",STUDIO:"content",ANALYST:"operations"};
+  const job=jobMap[diagnosis.agent]||"sales";
+  const actions=[...document.querySelectorAll(".check.selected")].map(x=>x.textContent.trim());
+  const knowledge=document.getElementById("knowledge")?.value.trim()||"";
+  const escalation=document.getElementById("escalation")?.value||"Ask a human when unsure";
+  const err=document.getElementById("checkoutError");err.textContent="";
+  if(!email||!email.includes("@")||!name){err.textContent="Please enter your name and a valid email.";return}
+  try{
+    const r=await fetch("/api/checkout/create",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name,email,business,job,channel,tone,knowledge,escalation,actions})});
+    const data=await r.json();
+    if(!r.ok) throw new Error(data.error||"Checkout could not be created");
+    window.location.href=data.url;
+  }catch(e){err.textContent=e.message}
+}
+
+async function completeCheckout(){
+  const params=new URLSearchParams(location.search),sid=params.get("session_id");
+  if(!sid)return;
+  try{
+    const r=await fetch("/api/checkout/status?session_id="+encodeURIComponent(sid));
+    const data=await r.json();
+    if(!r.ok||!data.paid) throw new Error(data.error||"Payment is not confirmed yet.");
+    localStorage.setItem("nexusToken",data.token);
+    localStorage.setItem("nexusAgentId",String(data.agent.id));
+    document.getElementById("checkout")?.classList.add("hidden");
+    document.getElementById("success")?.classList.remove("hidden");
+    document.getElementById("dashboard")?.classList.remove("hidden");
+    document.getElementById("welcome").textContent="Welcome, "+data.customer.name+". Payment confirmed and your "+data.agent.agent_name+" agent is active.";
+    document.getElementById("dashAgent").textContent=data.agent.agent_name;
+    document.getElementById("dashBusiness").textContent=data.agent.business;
+    document.getElementById("dashboard").scrollIntoView({behavior:"smooth",block:"center"});
+  }catch(e){console.error(e)}
+}
+
+async function sendChat(){
+  const input=document.getElementById("chatInput"),msg=input.value.trim(),log=document.getElementById("chatLog");
+  const token=localStorage.getItem("nexusToken"),agentId=localStorage.getItem("nexusAgentId");
+  if(!msg||!token||!agentId)return;
+  log.innerHTML += '<div style="margin:8px 0;color:#d4ff3f"><b>YOU</b> '+escapeHtml(msg)+'</div>';input.value="";
+  try{
+    const r=await fetch("/api/agent/chat",{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+token},body:JSON.stringify({agentId:Number(agentId),message:msg})});
+    const data=await r.json(); if(!r.ok) throw new Error(data.error||"AI request failed");
+    log.innerHTML += '<div style="margin:8px 0;color:#ddd"><b>NEXUS</b> '+escapeHtml(data.response)+'</div>';log.scrollTop=log.scrollHeight;
+  }catch(e){log.innerHTML += '<div style="margin:8px 0;color:#ff8b8b">'+escapeHtml(e.message)+'</div>'}
+}
+function escapeHtml(v){return String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+document.getElementById("lang").onclick=()=>{const ar=document.documentElement.lang!=="ar";document.documentElement.lang=ar?"ar":"en";document.documentElement.dir=ar?"rtl":"ltr";document.getElementById("lang").textContent=ar?"EN":"AR";document.querySelectorAll("[data-en]").forEach(e=>e.innerHTML=e.dataset[ar?"ar":"en"]);renderQ()}
+renderQ();
+completeCheckout();
+
+async function generateLiveAgent(){
+  const business=(document.getElementById("biz")?.value||"Your business").trim();
+  const job=document.getElementById("liveJob").value;
+  const channel=document.getElementById("channel")?.value||"Website chat";
+  const tone=document.getElementById("tone")?.value||"Professional & friendly";
+  const knowledge=document.getElementById("knowledge").value.trim();
+  const escalation=document.getElementById("escalation").value;
+  const actions=[...document.querySelectorAll(".check.selected")].map(x=>x.textContent.trim());
+  const box=document.getElementById("liveAgentResult");
+  box.classList.remove("hidden");
+  box.innerHTML='<div class="step-label">NEXUS / BUILDING ENGINE…</div><p>Creating the agent contract, system rules and channel behavior.</p>';
+  try{
+    const r=await fetch("/api/agent/generate",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({business,job,agent:diagnosis.agent,channel,tone,knowledge,escalation,actions})});
+    const data=await r.json();
+    if(!r.ok) throw new Error(data.error||"Generation failed");
+    box.innerHTML='<div class="preview-top"><span class="step-label">PRODUCTION BLUEPRINT</span><span class="status live">READY</span></div><div class="preview-title">'+data.agentName+'</div><div class="preview-line">'+data.summary+'</div><div style="margin-top:18px"><span class="pill">JOB: '+job.toUpperCase()+'</span><span class="pill">CHANNEL: '+channel.toUpperCase()+'</span><span class="pill">ESCALATION: HUMAN-SAFE</span></div><pre style="white-space:pre-wrap;color:#8f978f;font:11px monospace;line-height:1.6;margin-top:20px">'+data.systemPrompt.replace(/</g,"&lt;")+'</pre>';
+  }catch(e){
+    box.innerHTML='<div class="step-label">ENGINE READY / CONNECTION REQUIRED</div><p>The agent architecture is ready. Add the AI provider key on the server to turn this blueprint into live model replies.</p>';
+  }
+}
+</script>
+</body>
+</html>

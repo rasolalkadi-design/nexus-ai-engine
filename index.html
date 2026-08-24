@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>NEXUS — AI Operating System</title>
+<meta name="description" content="NEXUS diagnoses your business, builds your first AI workflow and gives you a clear path to activation.">
+<style>
+:root{--bg:#060706;--panel:#0d100d;--panel2:#111411;--fg:#f4f6ee;--muted:#8c938b;--line:#252b25;--acid:#d4ff3f;--danger:#ff6b6b}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--fg);font-family:Inter,Arial,sans-serif;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.035;background-image:radial-gradient(#fff 1px,transparent 1px);background-size:5px 5px;z-index:99}
+button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:none!important}
+header{position:sticky;top:0;z-index:50;height:70px;padding:0 5vw;border-bottom:1px solid var(--line);background:rgba(6,7,6,.86);backdrop-filter:blur(16px);display:flex;align-items:center;justify-content:space-between}
+.logo{font-weight:900;letter-spacing:.18em}.logo i{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--acid);box-shadow:0 0 18px var(--acid);margin-right:9px}
+nav{display:flex;gap:25px}nav a{color:#9ba19a;text-decoration:none;font-size:13px}nav a:hover{color:#fff}.header-right{display:flex;gap:9px;align-items:center}.lang{border:1px solid #3a4139;background:#101310;color:#fff;border-radius:99px;padding:9px 12px}
+.btn{display:inline-flex;align-items:center;justify-content:center;text-align:center;border:0;border-radius:5px;padding:15px 20px;background:var(--acid);color:#070907;font-weight:900;text-decoration:none;cursor:pointer}.btn:hover{box-shadow:0 12px 35px #d4ff3f18;transform:translateY(-1px)}.btn.secondary{background:#171b17;color:#fff;border:1px solid #3a4139}.btn.full{width:100%}.btn.disabled{opacity:.45;pointer-events:none}
+.hero{min-height:calc(100vh - 70px);padding:8vw 7vw;display:grid;grid-template-columns:1.05fr .95fr;gap:6vw;align-items:center;border-bottom:1px solid var(--line)}
+.kicker,.micro,.console-label,.step-label,.field-label,.status{font:10px monospace;letter-spacing:.14em;color:#747b74}.kicker b,.status.live{color:var(--acid)}
+h1{font-size:clamp(56px,8vw,112px);line-height:.86;letter-spacing:-.075em;margin:18px 0 28px}em{font-style:normal;color:var(--acid)}.hero p{font-size:18px;line-height:1.65;color:#a4aaa3;max-width:620px}.hero-actions{display:flex;gap:13px;flex-wrap:wrap;margin:32px 0}.micro{display:flex;gap:9px;flex-wrap:wrap}
+.console{height:540px;border:1px solid #303730;padding:18px;position:relative;overflow:hidden;background:radial-gradient(circle at 50% 47%,#172315 0,#0b0e0b 38%,#060706 72%)}.console-top,.console-bottom{display:flex;justify-content:space-between;font:10px monospace;color:#707770}.console-top span:last-child,.console-bottom b{color:var(--acid)}
+.core{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:105px;height:105px;border:1px solid var(--acid);border-radius:50%;display:grid;place-items:center;font-size:38px;font-weight:900;color:var(--acid);box-shadow:0 0 70px #d4ff3f14}.orbit{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);border:1px solid #252d25;border-radius:50%;width:220px;height:220px}.orbit.two{width:350px;height:350px}.orbit.three{width:490px;height:490px}.node{position:absolute;border:1px solid #353c35;background:#0a0c0a;padding:8px 10px;font:9px monospace;color:#aeb4ac}.n1{left:6%;top:30%}.n2{right:8%;top:18%}.n3{right:5%;bottom:27%}.n4{left:10%;bottom:14%}
+.marquee{overflow:hidden;white-space:nowrap;border-bottom:1px solid var(--line);padding:14px;font:10px monospace;color:#747b74}.marquee span{color:var(--acid);margin:0 14px}
+.section{padding:9vw 7vw;border-bottom:1px solid var(--line)}.section-head{display:grid;grid-template-columns:1fr .65fr;gap:7vw;margin-bottom:55px}.section h2{font-size:clamp(44px,6vw,80px);line-height:.92;letter-spacing:-.065em;margin:15px 0}.section-head p,.section>p{color:#8d948d;line-height:1.7;max-width:520px;align-self:end}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.card{border:1px solid #303730;background:#0b0e0b;padding:25px;min-height:240px}.card:hover{border-color:#53604f}.card .num{font:10px monospace;color:var(--acid)}.card h3{margin-top:70px;font-size:23px}.card p{color:#858c85;line-height:1.55}
+.scan-wrap{max-width:1000px;border:1px solid #303730;background:#0a0d0a;padding:30px}.progress{height:2px;background:#262d26;margin-bottom:40px}.progress i{display:block;height:100%;width:0;background:var(--acid);transition:.25s}.qtop{display:flex;justify-content:space-between}.question{font-size:clamp(30px,4vw,52px);letter-spacing:-.05em;line-height:1;margin:15px 0 30px}.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}.opt{background:#111411;color:#ddd;border:1px solid #303730;padding:18px;text-align:left;min-height:62px}.opt:hover,.opt.selected{border-color:var(--acid);color:var(--acid);background:#131a0d}.scan-actions{display:flex;justify-content:space-between;gap:10px;margin-top:30px}.small{padding:13px 17px;border:1px solid #3a4139;background:#151815;color:#ddd}.small.next{background:var(--acid);border-color:var(--acid);color:#070907;font-weight:900}
+.result-card{margin-top:20px;border:1px solid var(--acid);padding:35px;background:radial-gradient(circle at 85% 10%,#d4ff3f10,transparent 35%)}.score{font-size:92px;font-weight:900;letter-spacing:-.08em}.score small{font:12px monospace;color:#666}.result-title{font-size:45px;color:var(--acid);font-weight:900;letter-spacing:-.05em;margin:10px 0}.result-card p{color:#a4aaa3;line-height:1.6;max-width:700px}.leaks{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:25px 0}.leak{border:1px solid #303730;padding:17px}.leak strong{display:block;margin-bottom:7px}.leak span{font:10px monospace;color:var(--acid)}
+.builder{background:#0a0d0a}.builder-box{max-width:900px;border:1px solid #303730;padding:30px}.field{margin:0 0 22px}.field-label{display:block;margin-bottom:8px}.field input,.field select,.field textarea{width:100%;background:#101310;color:#fff;border:1px solid #343b34;padding:15px;outline:none}.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--acid)}.checks{display:grid;gap:9px}.check{padding:16px;border:1px solid #303730;background:#101310;color:#ddd;text-align:left}.check.selected{border-color:var(--acid);color:var(--acid);background:#141b0d}
+.preview{border:1px solid #303730;margin-top:20px;padding:25px;background:#080a08}.preview-top{display:flex;justify-content:space-between}.preview-title{font-size:31px;margin:25px 0 10px}.preview-line{color:#929992;line-height:1.6}.pill{display:inline-block;border:1px solid #3a4139;padding:6px 9px;margin:4px 4px 0 0;font:9px monospace;color:#b8beb7}
+.pricing{display:grid;grid-template-columns:1fr .75fr;gap:8vw;align-items:center}.price{border:1px solid var(--acid);background:#0c1109;padding:30px}.amount{font-size:82px;font-weight:900;letter-spacing:-.08em;margin:35px 0 20px}.price ul{list-style:none;padding:0;margin:0 0 25px}.price li{padding:11px 0;border-bottom:1px solid #273024;color:#bbb}.price li:before{content:"✓";color:var(--acid);margin-right:10px}
+.checkout{max-width:850px;border:1px solid #303730;padding:30px;background:#0a0d0a}.order{display:flex;justify-content:space-between;border-bottom:1px solid #303730;padding-bottom:20px;margin-bottom:25px}.total{font-size:32px;font-weight:900}.secure{font:10px monospace;color:#6f766f;margin-top:15px}
+.success{border:1px solid var(--acid);padding:35px;background:#0c1109}.success .big{font-size:60px;font-weight:900;color:var(--acid);letter-spacing:-.07em}
+.final{text-align:center;padding:12vw 7vw;background:radial-gradient(circle at 50% 35%,#15200e 0,transparent 42%)}.final h2{font-size:clamp(45px,7vw,88px);line-height:.9;letter-spacing:-.065em}footer{display:flex;justify-content:space-between;padding:25px 7vw;font:10px monospace;color:#626962}
+@media(max-width:900px){nav{display:none}.hero,.pricing,.section-head{grid-template-columns:1fr}.hero{padding:15vw 5vw}.console{height:430px}.grid4{grid-template-columns:1fr 1fr}.section{padding:14vw 5vw}.opts,.leaks{grid-template-columns:1fr}}
+@media(max-width:600px){header{padding:0 18px}.header-right .btn{display:none}.hero{padding:20vw 20px}.hero h1{font-size:57px}.console{height:370px}.orbit{width:150px;height:150px}.orbit.two{width:240px;height:240px}.orbit.three{width:320px;height:320px}.node{font-size:8px}.section{padding:18vw 20px}.grid4{grid-template-columns:1fr}.scan-wrap,.builder-box,.checkout{padding:20px}.amount{font-size:65px}.score{font-size:70px}.result-title{font-size:36px}footer{padding:20px;flex-direction:column}}
+[dir=rtl]{font-family:Arial,Tahoma,sans-serif}[dir=rtl] .opt,[dir=rtl] .check{text-align:right}
+
+.hero{position:relative;min-height:calc(100vh - 70px);padding:0 7vw;display:flex;align-items:center;overflow:hidden;border-bottom:1px solid var(--line);isolation:isolate}.hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-3;filter:saturate(.85) contrast(1.08) brightness(.58)}.hero-video-overlay{position:absolute;inset:0;background:radial-gradient(circle at 70% 50%,rgba(42,80,18,.15),transparent 35%),linear-gradient(90deg,rgba(3,5,3,.97) 0%,rgba(3,5,3,.76) 42%,rgba(3,5,3,.28) 100%),linear-gradient(0deg,rgba(3,5,3,.9),transparent 35%,rgba(3,5,3,.2));z-index:-2}.hero:after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,transparent 0,rgba(212,255,63,.035) 50%,transparent 100%);pointer-events:none}.hero-copy{max-width:820px;padding:8vw 0;position:relative;z-index:2}.hero-badge{display:inline-flex;align-items:center;gap:10px;border:1px solid rgba(212,255,63,.35);background:rgba(7,10,6,.5);backdrop-filter:blur(12px);padding:10px 14px;border-radius:999px;font:10px monospace;letter-spacing:.14em;color:#c8d0c4}.hero-badge b{color:var(--acid);text-shadow:0 0 14px var(--acid)}.hero h1{max-width:900px;text-shadow:0 8px 50px rgba(0,0,0,.65)}.hero p{max-width:720px}.hero-video-label{position:absolute;right:6vw;bottom:28px;font:10px monospace;letter-spacing:.18em;color:#8d9788;z-index:2}.hero-video-label b{color:var(--acid)}.hero-actions{margin-top:34px}.hero .btn{box-shadow:0 15px 50px rgba(212,255,63,.08)}
+.channel-strip{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--line);background:#080a08}.channel-item{padding:24px 7vw;border-right:1px solid var(--line);font:11px monospace;color:#7e877c;letter-spacing:.12em}.channel-item:last-child{border-right:0}.channel-item b{display:block;color:#e7eee3;font-size:16px;letter-spacing:0;margin-top:7px}.channel-item i{display:inline-block;width:6px;height:6px;background:var(--acid);border-radius:50%;box-shadow:0 0 14px var(--acid);margin-right:8px}
+.service-card{position:relative;min-height:300px;overflow:hidden;transition:.35s;background:linear-gradient(145deg,#0b0f0b,#080a08)}.service-card:before{content:"";position:absolute;width:180px;height:180px;right:-60px;top:-60px;border-radius:50%;background:var(--acid);opacity:.06;filter:blur(2px)}.service-card:hover{transform:translateY(-7px);border-color:#66745e;box-shadow:0 25px 80px rgba(0,0,0,.35)}.service-card h3{font-size:30px;margin-top:80px}.service-card p{max-width:290px}.service-icon{font-size:22px;color:var(--acid)}
+.demo-flow{display:grid;grid-template-columns:.8fr 1.4fr .8fr;gap:12px;align-items:stretch}.flow-panel{border:1px solid #303730;background:#090c09;padding:24px;min-height:250px}.flow-panel .tag{font:10px monospace;color:var(--acid);letter-spacing:.12em}.flow-message{margin-top:28px;border:1px solid #303730;background:#111511;padding:16px;color:#e6ece3;line-height:1.5}.flow-brain{display:grid;place-items:center;position:relative;min-height:250px;background:radial-gradient(circle,#18270f 0,#0a0d09 48%,#070907 80%);border:1px solid #3b4b36}.flow-core{width:115px;height:115px;border:1px solid var(--acid);border-radius:50%;display:grid;place-items:center;color:var(--acid);font-size:38px;font-weight:900;box-shadow:0 0 80px rgba(212,255,63,.14);animation:pulse 2.2s ease-in-out infinite}.flow-core:after{content:"";position:absolute;width:180px;height:180px;border:1px solid rgba(212,255,63,.15);border-radius:50%;animation:spin 10s linear infinite}.flow-arrow{font:20px monospace;color:var(--acid);position:absolute}.flow-arrow.a1{left:4%;top:50%}.flow-arrow.a2{right:4%;top:50%}.flow-result{margin-top:28px;border:1px solid rgba(212,255,63,.28);background:#10180b;padding:16px;color:#dfff8a}.typing{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--acid);box-shadow:12px 0 0 #78944b,24px 0 0 #405129;animation:blink 1s infinite}.reveal{animation:rise .8s both}.delay1{animation-delay:.12s}.delay2{animation-delay:.24s}@keyframes pulse{50%{transform:scale(1.05);box-shadow:0 0 110px rgba(212,255,63,.22)}}@keyframes spin{to{transform:rotate(360deg)}}@keyframes blink{50%{opacity:.35}}@keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+@media(max-width:900px){.hero{min-height:calc(100vh - 70px);padding:0 5vw}.hero-video{filter:saturate(.8) contrast(1.05) brightness(.48)}.hero-copy{padding:15vw 0}.hero-video-label{display:none}.channel-strip{grid-template-columns:1fr 1fr}.channel-item{padding:20px 5vw}.channel-item:nth-child(2){border-right:0}.demo-flow{grid-template-columns:1fr}.flow-panel{min-height:180px}}
+@media(max-width:600px){.hero{padding:0 20px}.hero-copy{padding:22vw 0}.hero h1{font-size:55px}.hero p{font-size:16px}.hero-badge{font-size:8px}.channel-item{padding:18px 20px}.channel-item b{font-size:14px}.service-card{min-height:240px}.service-card h3{margin-top:55px}.flow-panel{min-height:160px}}
+
+.hero-chat{position:absolute;right:7vw;bottom:12%;width:min(360px,34vw);z-index:3;pointer-events:none}.hero-chat-card{border:1px solid rgba(212,255,63,.28);background:rgba(5,8,5,.66);backdrop-filter:blur(18px);box-shadow:0 30px 100px rgba(0,0,0,.5);padding:15px 17px;margin-top:10px;animation:floatCard 5s ease-in-out infinite}.hero-chat-card:nth-child(2){animation-delay:1.2s;margin-left:35px}.hero-chat-card:nth-child(3){animation-delay:2.4s;margin-left:10px}.hero-chat-card span{display:block;font:9px monospace;color:var(--acid);letter-spacing:.12em}.hero-chat-card b{display:block;margin-top:7px;color:#f0f4ec;font-size:14px}.hero-chat-card small{display:block;color:#8f998d;margin-top:4px}.hero-video{opacity:.88}.hero-video-overlay{background:linear-gradient(90deg,rgba(3,5,3,.96) 0%,rgba(3,5,3,.70) 45%,rgba(3,5,3,.18) 100%),linear-gradient(0deg,rgba(3,5,3,.88),rgba(3,5,3,.12) 55%,rgba(3,5,3,.38))}.muted{color:#858e84}.channel-demo-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}.channel-demo-row>div{border:1px solid #303730;background:#0a0d0a;padding:20px}.channel-demo-row span{display:block;font:9px monospace;color:var(--acid);letter-spacing:.12em}.channel-demo-row b{display:block;margin:15px 0 8px}.channel-demo-row small{display:block;color:#777f77;line-height:1.5}.connect-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:12px;align-items:stretch}.connect-box{max-width:none}.connect-title{font:11px monospace;letter-spacing:.14em;color:var(--acid);margin-bottom:22px}.channel-picks{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:-5px 0 22px}.channel-pick{border:1px solid #303730;background:#101310;color:#bbb;padding:12px 8px}.channel-pick.active{border-color:var(--acid);color:var(--acid);background:#141b0d}.connect-side{border:1px solid #303730;background:#090c09;padding:28px}.side-kicker{font:10px monospace;color:var(--acid);letter-spacing:.14em;margin-bottom:22px}.learn-item{display:flex;gap:14px;padding:15px 0;border-bottom:1px solid #222822}.learn-item b{font:10px monospace;color:#5f695e}.learn-item span{color:#d9ded7}.connect-note{margin-top:25px;color:#707870;font-size:12px;line-height:1.6}.analysis-progress{margin-top:18px;border:1px solid #303730;padding:18px;font:11px monospace;color:#9da79a;line-height:1.9}.analysis-progress b{color:var(--acid)}.ai-demo-chat{max-width:1000px;margin-top:18px}.demo-chat-head{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid #242b24}.demo-chat-head small{display:block;color:#6f786f;font-size:10px;margin-top:3px}.channel-dot{width:10px;height:10px;border-radius:50%;background:var(--acid);box-shadow:0 0 16px var(--acid)}.demo-log{min-height:190px;max-height:330px;overflow:auto;padding:20px 0}.chat-bubble{max-width:78%;padding:14px 16px;margin:10px 0;border:1px solid #303730;line-height:1.5}.chat-bubble.customer{margin-left:auto;background:#101410}.chat-bubble.ai{background:#0f180b;border-color:rgba(212,255,63,.25);color:#dcf98e}.chat-bubble small{display:block;font:9px monospace;color:#697267;margin-bottom:6px}.demo-input{display:flex;gap:8px}.demo-input input{flex:1;background:#101310;color:#fff;border:1px solid #343b34;padding:15px}.demo-suggestions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.demo-suggestions button{border:1px solid #303730;background:#0d100d;color:#999;padding:8px 10px;font-size:11px}.status.live{color:var(--acid)}@keyframes floatCard{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@media(max-width:900px){.hero-chat{right:5vw;width:280px;bottom:7%}.connect-grid{grid-template-columns:1fr}.channel-demo-row{grid-template-columns:1fr}.channel-picks{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.hero-chat{display:none}.hero-video{object-position:62% center}.channel-picks{grid-template-columns:1fr 1fr}.demo-input{flex-direction:column}.demo-input .btn{width:100%}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo"><i></i>NEXUS</div>
+  <nav><a href="#services" data-en="Services" data-ar="الخدمات">Services</a><a href="#system" data-en="How it works" data-ar="كيف يعمل">How it works</a><a href="#free-test" data-en="Try free" data-ar="جرّب مجاناً">Try free</a></nav>
+  <div class="header-right"><button class="lang" id="lang">AR</button><a class="btn" href="#free-test" data-en="Try NEXUS free" data-ar="جرّب NEXUS مجاناً">Try NEXUS free</a></div>
+</header>
+
+<main>
+<section class="hero" id="top">
+  <video class="hero-video" autoplay muted loop playsinline preload="auto" poster="assets/nexus-hero-poster.jpg">
+    <source src="assets/nexus-hero.mp4" type="video/mp4">
+  </video>
+  <div class="hero-video-overlay"></div>
+  <div class="hero-copy">
+    <div class="hero-badge reveal"><b>●</b> NEXUS AI EMPLOYEE / LIVE</div>
+    <h1 class="reveal delay1" data-en="Your customers.<br><em>Your AI handles the rest.</em>" data-ar="عملاؤك.<br><em>والـAI يتولى الباقي.</em>">Your customers.<br><em>Your AI handles the rest.</em></h1>
+    <p class="reveal delay2" data-en="Paste your business link. NEXUS learns what you sell, how you speak and what your customers need — then helps you answer conversations across WhatsApp, Instagram, your website and email." data-ar="ضع رابط مشروعك. يتعرّف NEXUS على خدماتك ومحتواك وطريقة تواصلك، ثم يساعدك على الرد على محادثات العملاء عبر واتساب وإنستغرام والموقع والبريد الإلكتروني.">Paste your business link. NEXUS learns what you sell, how you speak and what your customers need — then helps you answer conversations across WhatsApp, Instagram, your website and email.</p>
+    <div class="hero-actions reveal delay2"><a class="btn" href="#free-test" data-en="Watch the AI work ↗" data-ar="شاهد الذكاء يعمل ←">Watch the AI work ↗</a><a class="btn secondary" href="#services" data-en="Explore what it does" data-ar="اكتشف خدماته">Explore what it does</a></div>
+    <div class="micro reveal delay2">WHATSAPP <span>•</span> INSTAGRAM <span>•</span> WEBSITE <span>•</span> EMAIL <span>•</span> 24 / 7</div>
+  </div>
+  <div class="hero-chat">
+    <div class="hero-chat-card"><span>WHATSAPP / CUSTOMER</span><b>“Can you tell me more about this?”</b><small>Incoming message detected</small></div>
+    <div class="hero-chat-card"><span>INSTAGRAM / DM</span><b>“How does this work?”</b><small>NEXUS understands the context</small></div>
+    <div class="hero-chat-card"><span>NEXUS / AI</span><b>“Absolutely. Here’s everything you need to know…”</b><small>Reply generated in your business voice</small></div>
+  </div>
+  <div class="hero-video-label">LIVE SYSTEM / <b>ONE BRAIN • EVERY CHANNEL</b></div>
+</section>
+<div class="channel-strip"><div class="channel-item"><i></i>WHATSAPP<b>AI replies instantly</b></div><div class="channel-item"><i></i>INSTAGRAM<b>Handles every DM</b></div><div class="channel-item"><i></i>WEBSITE<b>Converts visitors</b></div><div class="channel-item"><i></i>EMAIL<b>Follows up automatically</b></div></div>
+
+<div class="marquee">ONE CUSTOMER MESSAGE <span>→</span> NEXUS UNDERSTANDS <span>→</span> NEXUS RESPONDS <span>→</span> YOUR TEAM SAVES TIME <span>→</span> YOUR BUSINESS KEEPS MOVING</div>
+
+<section class="section" id="system">
+  <div class="section-head"><div><div class="kicker">01 / HOW IT WORKS</div><h2>One link.<br><em>One AI brain.</em></h2></div><p>Give NEXUS your business link. It learns the public information you choose to connect, builds a business knowledge layer, and prepares an AI employee to answer customers in your tone.</p></div>
+  <div class="demo-flow generic-flow">
+    <div class="flow-panel"><div class="tag">01 / YOUR BUSINESS</div><div class="flow-message"><b>Instagram / Facebook / Website</b><br><span class="muted">Your profile, services, offers, FAQs, tone and useful public information.</span></div><div class="kicker" style="margin-top:22px">CONNECT • ANALYZE • UNDERSTAND</div></div>
+    <div class="flow-brain"><span class="flow-arrow a1">→</span><div class="flow-core">N</div><span class="flow-arrow a2">→</span></div>
+    <div class="flow-panel"><div class="tag">02 / YOUR AI EMPLOYEE</div><div class="flow-result"><b>Understands the customer.</b><br>Answers instantly. Qualifies leads. Handles routine requests. Escalates when a human is needed.</div><div class="kicker" style="margin-top:22px">UNDERSTANDS • RESPONDS • ACTS</div></div>
+  </div>
+  <div class="channel-demo-row">
+    <div><span>WHATSAPP</span><b>“Is this still available?”</b><small>NEXUS replies from your business knowledge.</small></div>
+    <div><span>INSTAGRAM</span><b>“How much is it?”</b><small>NEXUS answers in your brand voice.</small></div>
+    <div><span>WEBSITE</span><b>“Can you help me choose?”</b><small>NEXUS guides the customer instantly.</small></div>
+  </div>
+</section>
+<section class="section" id="services">
+  <div class="section-head"><div><div class="kicker">02 / WHAT NEXUS DOES</div><h2>More than a chatbot.<br><em>An AI workforce.</em></h2></div><p>Choose the job you need. NEXUS turns the same engine into a focused AI employee for sales, support, bookings, follow-up, content or operations.</p></div>
+  <div class="grid4">
+    <article class="card service-card"><div class="service-icon">↗</div><div class="num">SALES / 01</div><h3>Sales</h3><p>Answers new leads, qualifies them, handles objections and moves serious buyers forward.</p></article>
+    <article class="card service-card"><div class="service-icon">◌</div><div class="num">SUPPORT / 02</div><h3>Customer Support</h3><p>Replies 24/7, answers FAQs, handles routine requests and escalates what needs a human.</p></article>
+    <article class="card service-card"><div class="service-icon">□</div><div class="num">BOOKING / 03</div><h3>Bookings</h3><p>Handles appointment conversations, collects details and keeps the customer moving.</p></article>
+    <article class="card service-card"><div class="service-icon">↻</div><div class="num">FOLLOW-UP / 04</div><h3>Follow-up</h3><p>Stops leads from going cold with timely, personalized follow-ups across your channels.</p></article>
+    <article class="card service-card"><div class="service-icon">✦</div><div class="num">CONTENT / 05</div><h3>Content</h3><p>Turns your business knowledge into useful posts, replies, ideas and campaign support.</p></article>
+    <article class="card service-card"><div class="service-icon">⌁</div><div class="num">OPERATIONS / 06</div><h3>Operations</h3><p>Summarizes conversations, surfaces signals and helps your team stay on top of the work.</p></article>
+    <article class="card service-card"><div class="service-icon">◎</div><div class="num">HUMAN HANDOFF / 07</div><h3>Human Control</h3><p>When the AI is unsure or a situation is sensitive, it knows when to bring a person in.</p></article>
+    <article class="card service-card"><div class="service-icon">∞</div><div class="num">MULTI-CHANNEL / 08</div><h3>One Brain</h3><p>One business brain across WhatsApp, Instagram, website chat and email — with one shared context.</p></article>
+  </div>
+</section>
+
+<section class="section" id="scan" style="display:none">
+  <div class="section-head"><div><div class="kicker">03 / BUSINESS SCAN</div><h2 data-en="Let's find your<br><em>first win.</em>" data-ar="لنكتشف أول<br><em>نتيجة قوية.</em>">Let's find your<br><em>first win.</em></h2></div><p data-en="12 questions. One diagnosis. One recommended starting point." data-ar="12 سؤالاً. تشخيص واحد. ونقطة بداية مقترحة.">12 questions. One diagnosis. One recommended starting point.</p></div>
+  <div class="scan-wrap"><div class="progress"><i id="bar"></i></div><div id="qa"></div><div class="scan-actions"><button class="small" id="back" disabled>← Back</button><button class="small next" id="next">Continue →</button></div></div>
+  <div id="result" class="result-card hidden"></div>
+</section>
+
+<section class="section builder" id="builder">
+  <div class="section-head"><div><div class="kicker">04 / AGENT BUILDER</div><h2 data-en="Now we build<br><em>your agent.</em>" data-ar="الآن نبني<br><em>وكيلك.</em>">Now we build<br><em>your agent.</em></h2></div><p id="builderIntro">Your diagnosis determines the default agent. You can still customize it before continuing.</p></div>
+  <div class="builder-box">
+    <div class="field"><label class="field-label">BUSINESS NAME</label><input id="biz" placeholder="e.g. Nova Dental Clinic"></div>
+    <div class="field"><label class="field-label">PRIMARY CHANNEL</label><select id="channel"><option>WhatsApp</option><option>Instagram</option><option>Email</option><option>Website chat</option><option>CRM</option></select></div>
+    <div class="field"><label class="field-label">WHAT SHOULD YOUR AGENT DO?</label><div class="checks"><button class="check selected" onclick="toggleCheck(this)">Reply to new leads</button><button class="check selected" onclick="toggleCheck(this)">Follow up after 24 hours</button><button class="check" onclick="toggleCheck(this)">Flag hot leads for me</button><button class="check" onclick="toggleCheck(this)">Summarize conversations</button></div></div>
+    <div class="field"><label class="field-label">TONE</label><select id="tone"><option>Professional & friendly</option><option>Short & direct</option><option>Warm & conversational</option></select></div>
+    <button class="btn full" onclick="configureAgent()">Generate my agent setup ↗</button>
+    <div id="agentPreview" class="preview hidden"></div>
+  </div>
+</section>
+
+<section class="section" id="agents" style="display:none">
+  <div class="section-head"><div><div class="kicker">05 / AI WORKFORCE</div><h2 data-en="Focused agents.<br><em>Clear jobs.</em>" data-ar="وكلاء محددون.<br><em>ومهام واضحة.</em>">Focused agents.<br><em>Clear jobs.</em></h2></div></div>
+  <div class="grid4"><article class="card"><div class="num">SALES / 01</div><h3>FOLLOWER</h3><p>Lead follow-up and pipeline support.</p></article><article class="card"><div class="num">CUSTOMERS / 02</div><h3>RECEPTION</h3><p>Questions, triage and booking support.</p></article><article class="card"><div class="num">CONTENT / 03</div><h3>STUDIO</h3><p>Turn business knowledge into consistent content.</p></article><article class="card"><div class="num">OPS / 04</div><h3>ANALYST</h3><p>Reports, summaries and useful signals.</p></article></div>
+</section>
+
+<section class="section" id="free-test">
+  <div class="section-head"><div><div class="kicker">03 / CONNECT YOUR BUSINESS</div><h2>Show NEXUS<br><em>what you do.</em></h2></div><p>Start with one link. For the live connection, NEXUS will ask you to authorize the channel. For this free demo, you can test the experience instantly without payment.</p></div>
+  <div class="connect-grid">
+    <div class="builder-box connect-box">
+      <div class="connect-title">PASTE YOUR BUSINESS LINK</div>
+      <div class="field"><label class="field-label">INSTAGRAM / FACEBOOK / WEBSITE</label><input id="sourceUrl" placeholder="https://instagram.com/yourbusiness"></div>
+      <div class="channel-picks" id="channelPicks">
+        <button class="channel-pick active" data-channel="Instagram">Instagram</button><button class="channel-pick" data-channel="Facebook">Facebook</button><button class="channel-pick" data-channel="WhatsApp">WhatsApp</button><button class="channel-pick" data-channel="Website">Website</button>
+      </div>
+      <button class="btn full" onclick="analyzeBusinessLink()">Analyze my business ↗</button>
+      <div id="analysisProgress" class="analysis-progress hidden"></div>
+      <div id="analysisResult" class="preview hidden"></div>
+    </div>
+    <div class="connect-side">
+      <div class="side-kicker">WHAT NEXUS LEARNS</div>
+      <div class="learn-item"><b>01</b><span>What you offer</span></div>
+      <div class="learn-item"><b>02</b><span>How you present it</span></div>
+      <div class="learn-item"><b>03</b><span>Common customer questions</span></div>
+      <div class="learn-item"><b>04</b><span>Your tone and positioning</span></div>
+      <div class="learn-item"><b>05</b><span>Where customers can reach you</span></div>
+      <div class="connect-note">For messaging access, NEXUS uses the platform's official authorization flow. No passwords are collected.</div>
+    </div>
+  </div>
+  <div id="testChat" class="preview hidden ai-demo-chat">
+    <div class="preview-top"><span class="step-label">NEXUS / LIVE DEMO</span><span id="testMode" class="status live">AI READY</span></div>
+    <div class="demo-chat-head"><span class="channel-dot"></span><div><b id="demoBusiness">Your business</b><small id="demoChannel">Instagram</small></div></div>
+    <div id="testLog" class="demo-log"></div>
+    <div class="demo-input"><input id="testMessage" placeholder="Type a customer message..."><button class="btn" onclick="sendTestMessage()">Send</button></div>
+    <div class="demo-suggestions"><button onclick="demoPrompt('What do you offer?')">What do you offer?</button><button onclick="demoPrompt('How much does it cost?')">How much does it cost?</button><button onclick="demoPrompt('Can you help me?')">Can you help me?</button></div>
+  </div>
+</section>
+<section class="section" id="pricing" style="display:none">
+  <div class="pricing"><div><div class="kicker">04 / ACCESS</div><h2 data-en="Start small.<br><em>Build serious.</em>" data-ar="ابدأ صغيراً.<br><em>وابنِ بجدية.</em>">Start small.<br><em>Build serious.</em></h2><p data-en="One product. A guided path from diagnosis to your first AI workflow." data-ar="منتج واحد. مسار موجّه من التشخيص إلى أول سير عمل بالذكاء الاصطناعي.">One product. A guided path from diagnosis to your first AI workflow.</p></div>
+  <div class="price"><div class="kicker">NEXUS CORE / LAUNCH</div><div class="amount">$79</div><ul><li>Business Scanner</li><li>Personalized diagnosis</li><li>10 AI agent blueprints</li><li>Automation playbooks</li><li>Prompt + SOP vault</li><li>Human-control framework</li></ul><a class="btn full" href="#checkout">Continue to checkout ↗</a></div></div>
+</section>
+
+<section class="section hidden" id="checkout">
+  <div class="checkout">
+    <div class="kicker">05 / CHECKOUT</div><h2 style="font-size:48px">Complete your access.</h2>
+    <div class="order"><div><b>NEXUS CORE</b><br><span class="kicker">Lifetime launch access</span></div><div class="total">$79</div></div>
+    <div class="field"><label class="field-label">EMAIL</label><input id="email" type="email" placeholder="you@example.com"></div>
+    <div class="field"><label class="field-label">FULL NAME</label><input id="name" placeholder="Your name"></div>
+    <button class="btn full" onclick="startCheckout()">Pay securely with Stripe ↗</button>
+    <div class="secure">SECURE CHECKOUT / ACCESS ACTIVATES AFTER PAYMENT</div>
+    <div id="checkoutError" style="margin-top:12px;color:#ff8b8b"></div>
+  </div>
+</section>
+
+<section class="section hidden" id="success">
+  <div class="success"><div class="kicker">06 / ACTIVATED</div><div class="big">ACCESS READY.</div><p id="welcome" style="color:#a5ada3;line-height:1.7">Your NEXUS workspace is ready.</p><a class="btn" href="#dashboard">Open my dashboard ↗</a></div>
+</section>
+
+<section class="section hidden" id="dashboard">
+  <div class="section-head"><div><div class="kicker">07 / WORKSPACE</div><h2>Your <em>NEXUS</em><br>workspace.</h2></div><p>Your paid workspace is active. Your first agent is live and ready for testing.</p></div>
+  <div class="grid4"><article class="card"><div class="num">AGENT</div><h3 id="dashAgent">FOLLOWER</h3><p id="dashBusiness">Your business agent.</p></article><article class="card"><div class="num">SETUP</div><h3>ACTIVE</h3><p>Payment confirmed and agent activated automatically.</p></article><article class="card"><div class="num">STATUS</div><h3 style="color:var(--acid)">LIVE</h3><p>AI engine is connected when your server has an AI provider key.</p></article><article class="card"><div class="num">NEXT</div><h3>CONNECT</h3><p>Connect WhatsApp, Instagram, email or other channels using their provider credentials.</p></article></div>
+  <div class="builder-box" style="margin-top:20px">
+    <div class="kicker">LIVE AGENT TEST</div>
+    <div id="chatLog" style="margin:18px 0;max-height:360px;overflow:auto"></div>
+    <div style="display:flex;gap:10px"><input id="chatInput" style="flex:1;background:#101310;color:#fff;border:1px solid #343b34;padding:15px" placeholder="Message your AI agent..."><button class="btn" onclick="sendChat()">Send ↗</button></div>
+  </div>
+</section>
+
+
+
+
+
+<section class="section" id="ai-engine" style="display:none">
+  <div class="section-head">
+    <div><div class="kicker">08 / AI ENGINE</div>
+      <h2>Your agent.<br><em>Actually works.</em></h2>
+    </div>
+    <p>Every customer gets one engine with a selected job, business context, tone, rules and channel configuration. The same engine can power sales, support, booking, content or operations.</p>
+  </div>
+  <div class="builder-box">
+    <div class="field"><label class="field-label">AGENT JOB</label>
+      <select id="liveJob">
+        <option value="sales">Sales & lead follow-up</option>
+        <option value="support">Customer support</option>
+        <option value="booking">Booking & appointment assistant</option>
+        <option value="content">Content assistant</option>
+        <option value="operations">Operations & reporting</option>
+      </select>
+    </div>
+    <div class="field"><label class="field-label">BUSINESS KNOWLEDGE</label>
+      <textarea id="knowledge" rows="6" placeholder="Paste your services, prices, opening hours, policies, FAQs, booking rules, and anything the agent must know."></textarea>
+    </div>
+    <div class="field"><label class="field-label">ESCALATION RULE</label>
+      <select id="escalation">
+        <option>Ask a human when unsure</option>
+        <option>Ask a human for price exceptions</option>
+        <option>Ask a human for complaints</option>
+        <option>Never act without human approval</option>
+      </select>
+    </div>
+    <button class="btn full" onclick="generateLiveAgent()">Generate production agent blueprint ↗</button>
+    <div id="liveAgentResult" class="preview hidden"></div>
+  </div>
+</section>
+<section class="final"><div class="kicker">NEXUS / 2026</div><h2 data-en="Stop collecting AI tools.<br><em>Build a system.</em>" data-ar="توقف عن جمع أدوات AI.<br><em>ابنِ نظاماً.</em>">Stop collecting AI tools.<br><em>Build a system.</em></h2><a class="btn" href="#free-test" data-en="Connect your business ↗" data-ar="اربط مشروعك بالـAI ←">Connect your business ↗</a></section>
+</main>
+<footer><span>NEXUS © 2026</span><span>AI operations, designed for humans.</span></footer>
+
+<script>
+const questions=[
+ {en:"What type of business do you run?",ar:"ما نوع مشروعك؟",opts:[["Service business","مشروع خدمي"],["E-commerce","تجارة إلكترونية"],["Clinic / professional","عيادة / خدمات مهنية"],["Agency","وكالة"],["Retail","تجزئة"],["Other","أخرى"]]},
+ {en:"Where do most customer conversations happen?",ar:"أين تحدث معظم محادثات العملاء؟",opts:[["WhatsApp","واتساب"],["Instagram","إنستغرام"],["Email","البريد الإلكتروني"],["Phone","الهاتف"],["Website","الموقع"]]},
+ {en:"What consumes most of your time?",ar:"ما أكثر شيء يستهلك وقتك؟",opts:[["Customer messages","رسائل العملاء"],["Sales & follow-up","المبيعات والمتابعة"],["Content","المحتوى"],["Admin","الأعمال الإدارية"],["Reporting","التقارير"],["Operations","العمليات"]]},
+ {en:"How often do you answer the same questions?",ar:"كم مرة تجيب عن الأسئلة نفسها؟",opts:[["Rarely","نادراً"],["A few times a week","بضع مرات أسبوعياً"],["Daily","يومياً"],["Many times a day","مرات كثيرة يومياً"]]},
+ {en:"How do you track new leads?",ar:"كيف تتابع العملاء المحتملين الجدد؟",opts:[["Spreadsheet","جدول بيانات"],["CRM","نظام CRM"],["Inbox / DMs","البريد / الرسائل"],["Memory / manual","ذاكرة / يدوياً"],["We don't track them","لا نتابعهم"]]},
+ {en:"How much content do you create each month?",ar:"كم محتوى تنتج شهرياً؟",opts:[["0–3 pieces","0–3 قطع"],["4–10","4–10"],["11–30","11–30"],["30+","أكثر من 30"]]},
+ {en:"What is your biggest operational headache?",ar:"ما أكبر مشكلة تشغيلية لديك؟",opts:[["Missed follow-ups","متابعات ضائعة"],["Slow replies","ردود بطيئة"],["Too much admin","إدارة كثيرة"],["Messy information","معلومات غير منظمة"],["Inconsistent content","محتوى غير منتظم"]]},
+ {en:"How many people are on the team?",ar:"كم شخصاً في فريقك؟",opts:[["Just me","أنا فقط"],["2–5","2–5"],["6–15","6–15"],["16+","16+"]]},
+ {en:"Do you already use AI at work?",ar:"هل تستخدم AI حالياً في العمل؟",opts:[["Not yet","ليس بعد"],["Sometimes","أحياناً"],["Every week","كل أسبوع"],["Every day","كل يوم"]]},
+ {en:"What would you most like to get back?",ar:"ما الشيء الذي تريد استعادة وقته أكثر؟",opts:[["5+ hours/week","أكثر من 5 ساعات أسبوعياً"],["More sales","مبيعات أكثر"],["Faster service","خدمة أسرع"],["Less admin","إدارة أقل"],["Better consistency","ثبات أفضل"]]},
+ {en:"How comfortable are you with automation?",ar:"ما مدى ارتياحك مع الأتمتة؟",opts:[["Beginner","مبتدئ"],["I use a few tools","أستخدم بعض الأدوات"],["Pretty comfortable","مرتاح نسبياً"],["Advanced","متقدم"]]},
+ {en:"If one task disappeared tomorrow, which would you choose?",ar:"لو اختفت مهمة واحدة غداً، ماذا تختار؟",opts:[["Lead follow-up","متابعة العملاء"],["Customer support","خدمة العملاء"],["Content creation","صناعة المحتوى"],["Reports","التقارير"],["Admin tasks","المهام الإدارية"]]}
+];
+let idx=0,answers=[],diagnosis={agent:"FOLLOWER",score:0,title:"Lead Follow-up",reason:""};
+const qa=document.getElementById("qa"),bar=document.getElementById("bar"),next=document.getElementById("next"),back=document.getElementById("back");
+function currentLang(){return document.documentElement.lang==="ar"?"ar":"en"}
+function renderQ(){
+ const q=questions[idx],l=currentLang();
+ qa.innerHTML='<div class="qtop"><span class="step-label">'+String(idx+1).padStart(2,"0")+' / '+questions.length+'</span><span class="status">'+Math.round(idx/questions.length*100)+'%</span></div><div class="question">'+q[l]+'</div><div class="opts">'+q.opts.map((o,j)=>'<button class="opt '+(answers[idx]===j?'selected':'')+'" onclick="pick('+j+')">'+o[l==="ar"?1:0]+'</button>').join("")+'</div>';
+ bar.style.width=(idx/questions.length*100)+"%";back.disabled=idx===0;next.textContent=idx===questions.length-1?(l==="ar"?"حلّل النتيجة ←":"Analyze my business →"):(l==="ar"?"متابعة ←":"Continue →");
+}
+function pick(j){answers[idx]=j;renderQ()}
+back.onclick=()=>{if(idx>0){idx--;renderQ()}}
+next.onclick=()=>{if(answers[idx]===undefined)return;if(idx<questions.length-1){idx++;renderQ()}else{diagnose()}}
+function diagnose(){
+ let sales=0,cust=0,content=0,ops=0;
+ answers.forEach((a,i)=>{const text=(questions[i].opts[a]||[""])[0];if(/sales|follow-up|lead/i.test(text))sales+=3;if(/message|customer|question|reply|support/i.test(text))cust+=3;if(/content/i.test(text))content+=3;if(/admin|report|operations|information/i.test(text))ops+=3});
+ const arr=[["FOLLOWER",sales+6,"Lead Follow-up"],["RECEPTION",cust+5,"Customer Response"],["STUDIO",content+4,"Content Production"],["ANALYST",ops+4,"Operations & Reporting"]].sort((a,b)=>b[1]-a[1]);
+ diagnosis.agent=arr[0][0];diagnosis.title=arr[0][2];diagnosis.score=Math.min(96,58+arr[0][1]);diagnosis.reason="Your answers suggest this is the highest-leverage place to start. NEXUS recommends one narrow workflow first, then expansion.";
+ const result=document.getElementById("result");result.classList.remove("hidden");
+ result.innerHTML='<div class="step-label">NEXUS / DIAGNOSTIC</div><div class="score">'+diagnosis.score+'<small>/100</small></div><div class="step-label">FIRST AUTOMATION TARGET</div><div class="result-title">'+diagnosis.agent+' — '+diagnosis.title+'</div><p>'+diagnosis.reason+'</p><div class="leaks">'+arr.slice(0,3).map((x,i)=>'<div class="leak"><strong>'+x[2]+'</strong><span>'+(i===0?"HIGH":i===1?"MEDIUM":"WATCH")+'</span></div>').join("")+'</div><a class="btn" href="#builder" onclick="prefillBuilder()">Build my first AI agent ↗</a>';
+ bar.style.width="100%";result.scrollIntoView({behavior:"smooth",block:"center"});
+}
+function prefillBuilder(){document.getElementById("builderIntro").textContent="Recommended agent: "+diagnosis.agent+" — "+diagnosis.title+". Customize it below, then generate your setup."}
+function toggleCheck(el){el.classList.toggle("selected")}
+function configureAgent(){
+ const biz=document.getElementById("biz").value.trim()||"Your business",channel=document.getElementById("channel").value,tone=document.getElementById("tone").value;
+ const actions=[...document.querySelectorAll(".check.selected")].map(x=>x.textContent.trim());
+ const p=document.getElementById("agentPreview");p.classList.remove("hidden");
+ p.innerHTML='<div class="preview-top"><span class="step-label">CONFIGURED AGENT</span><span class="status live">READY</span></div><div class="preview-title">'+diagnosis.agent+' / '+diagnosis.title+'</div><div class="preview-line">Built for <b>'+biz+'</b>, working through <b>'+channel+'</b>, with a <b>'+tone.toLowerCase()+'</b> tone.</div><div style="margin-top:15px">'+actions.map(x=>'<span class="pill">'+x+'</span>').join("")+'</div><div style="margin-top:25px"><a class="btn full" href="#pricing">Continue to NEXUS Core ↗</a></div>';
+ p.scrollIntoView({behavior:"smooth",block:"center"});
+}
+document.querySelector('a[href="#checkout"]').onclick=()=>{document.getElementById("checkout").classList.remove("hidden")}
+async function startCheckout(){
+  const email=document.getElementById("email").value.trim(),name=document.getElementById("name").value.trim();
+  const business=document.getElementById("biz").value.trim()||"Your business";
+  const channel=document.getElementById("channel").value,tone=document.getElementById("tone").value;
+  const jobMap={FOLLOWER:"sales",RECEPTION:"support",STUDIO:"content",ANALYST:"operations"};
+  const job=jobMap[diagnosis.agent]||"sales";
+  const actions=[...document.querySelectorAll(".check.selected")].map(x=>x.textContent.trim());
+  const knowledge=document.getElementById("knowledge")?.value.trim()||"";
+  const escalation=document.getElementById("escalation")?.value||"Ask a human when unsure";
+  const err=document.getElementById("checkoutError");err.textContent="";
+  if(!email||!email.includes("@")||!name){err.textContent="Please enter your name and a valid email.";return}
+  try{
+    const r=await fetch("/api/checkout/create",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name,email,business,job,channel,tone,knowledge,escalation,actions})});
+    const data=await r.json();
+    if(!r.ok) throw new Error(data.error||"Checkout could not be created");
+    window.location.href=data.url;
+  }catch(e){err.textContent=e.message}
+}
+
+async function completeCheckout(){
+  const params=new URLSearchParams(location.search),sid=params.get("session_id");
+  if(!sid)return;
+  try{
+    const r=await fetch("/api/checkout/status?session_id="+encodeURIComponent(sid));
+    const data=await r.json();
+    if(!r.ok||!data.paid) throw new Error(data.error||"Payment is not confirmed yet.");
+    localStorage.setItem("nexusToken",data.token);
+    localStorage.setItem("nexusAgentId",String(data.agent.id));
+    document.getElementById("checkout")?.classList.add("hidden");
+    document.getElementById("success")?.classList.remove("hidden");
+    document.getElementById("dashboard")?.classList.remove("hidden");
+    document.getElementById("welcome").textContent="Welcome, "+data.customer.name+". Payment confirmed and your "+data.agent.agent_name+" agent is active.";
+    document.getElementById("dashAgent").textContent=data.agent.agent_name;
+    document.getElementById("dashBusiness").textContent=data.agent.business;
+    document.getElementById("dashboard").scrollIntoView({behavior:"smooth",block:"center"});
+  }catch(e){console.error(e)}
+}
+
+async function sendChat(){
+  const input=document.getElementById("chatInput"),msg=input.value.trim(),log=document.getElementById("chatLog");
+  const token=localStorage.getItem("nexusToken"),agentId=localStorage.getItem("nexusAgentId");
+  if(!msg||!token||!agentId)return;
+  log.innerHTML += '<div style="margin:8px 0;color:#d4ff3f"><b>YOU</b> '+escapeHtml(msg)+'</div>';input.value="";
+  try{
+    const r=await fetch("/api/agent/chat",{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+token},body:JSON.stringify({agentId:Number(agentId),message:msg})});
+    const data=await r.json(); if(!r.ok) throw new Error(data.error||"AI request failed");
+    log.innerHTML += '<div style="margin:8px 0;color:#ddd"><b>NEXUS</b> '+escapeHtml(data.response)+'</div>';log.scrollTop=log.scrollHeight;
+  }catch(e){log.innerHTML += '<div style="margin:8px 0;color:#ff8b8b">'+escapeHtml(e.message)+'</div>'}
+}
+function escapeHtml(v){return String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+document.getElementById("lang").onclick=()=>{const ar=document.documentElement.lang!=="ar";document.documentElement.lang=ar?"ar":"en";document.documentElement.dir=ar?"rtl":"ltr";document.getElementById("lang").textContent=ar?"EN":"AR";document.querySelectorAll("[data-en]").forEach(e=>e.innerHTML=e.dataset[ar?"ar":"en"]);renderQ()}
+renderQ();
+completeCheckout();
+
+async function generateLiveAgent(){
+  const business=(document.getElementById("biz")?.value||"Your business").trim();
+  const job=document.getElementById("liveJob").value;
+  const channel=document.getElementById("channel")?.value||"Website chat";
+  const tone=document.getElementById("tone")?.value||"Professional & friendly";
+  const knowledge=document.getElementById("knowledge").value.trim();
+  const escalation=document.getElementById("escalation").value;
+  const actions=[...document.querySelectorAll(".check.selected")].map(x=>x.textContent.trim());
+  const box=document.getElementById("liveAgentResult");
+  box.classList.remove("hidden");
+  box.innerHTML='<div class="step-label">NEXUS / BUILDING ENGINE…</div><p>Creating the agent contract, system rules and channel behavior.</p>';
+  try{
+    const r=await fetch("/api/agent/generate",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({business,job,agent:diagnosis.agent,channel,tone,knowledge,escalation,actions})});
+    const data=await r.json();
+    if(!r.ok) throw new Error(data.error||"Generation failed");
+    box.innerHTML='<div class="preview-top"><span class="step-label">PRODUCTION BLUEPRINT</span><span class="status live">READY</span></div><div class="preview-title">'+data.agentName+'</div><div class="preview-line">'+data.summary+'</div><div style="margin-top:18px"><span class="pill">JOB: '+job.toUpperCase()+'</span><span class="pill">CHANNEL: '+channel.toUpperCase()+'</span><span class="pill">ESCALATION: HUMAN-SAFE</span></div><pre style="white-space:pre-wrap;color:#8f978f;font:11px monospace;line-height:1.6;margin-top:20px">'+data.systemPrompt.replace(/</g,"&lt;")+'</pre>';
+  }catch(e){
+    box.innerHTML='<div class="step-label">ENGINE READY / CONNECTION REQUIRED</div><p>The agent architecture is ready. Add the AI provider key on the server to turn this blueprint into live model replies.</p>';
+  }
+}
+let selectedChannel='Instagram';
+let analyzedKnowledge='';
+let testToken=null,testAgentId=null;
+document.querySelectorAll('.channel-pick').forEach(btn=>btn.addEventListener('click',()=>{
+ document.querySelectorAll('.channel-pick').forEach(x=>x.classList.remove('active'));
+ btn.classList.add('active'); selectedChannel=btn.dataset.channel;
+}));
+
+async function analyzeBusinessLink(){
+ const url=document.getElementById('sourceUrl').value.trim();
+ const progress=document.getElementById('analysisProgress');
+ const result=document.getElementById('analysisResult');
+ if(!url || !/^https?:\/\//i.test(url)){
+  progress.classList.remove('hidden');
+  progress.innerHTML='<b>ADD A VALID LINK</b><br>Use your Instagram, Facebook, or website URL.';
+  return;
+ }
+ progress.classList.remove('hidden'); result.classList.add('hidden');
+ progress.innerHTML='<b>NEXUS ANALYSIS</b><br><span id="analysisStep">Connecting to the source…</span>';
+ try{
+  const r=await fetch('/api/business/analyze',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({url})});
+  const d=await r.json();
+  if(!r.ok) throw new Error(d.error||'Business analysis failed');
+  analyzedKnowledge=JSON.stringify(d.knowledge);
+  const k=d.knowledge||{};
+  progress.innerHTML='<b>BUSINESS SOURCE READ</b><br>Public data fetched and converted into a Business Brain.';
+  result.classList.remove('hidden');
+  result.innerHTML='<div class="preview-top"><span class="step-label">BUSINESS BRAIN / READY</span><span class="status live">ANALYZED</span></div>'+
+   '<div class="preview-title">'+escapeHtml(k.businessName||new URL(url).hostname)+'</div>'+ 
+   '<div class="preview-line">'+escapeHtml(k.description||'NEXUS found public business information and prepared it for the AI employee.')+'</div>'+ 
+   '<div style="margin-top:18px"><span class="pill">SERVICES</span><span class="pill">OFFERS</span><span class="pill">CONTENT</span><span class="pill">CONTACT</span><span class="pill">FAQS</span></div>'+ 
+   '<div style="margin-top:18px;color:#8f978f;font-size:13px">Source: '+escapeHtml(d.source||selectedChannel)+' · HTTP '+escapeHtml(String(d.fetchStatus||''))+'</div>'+ 
+   (d.notes&&d.notes.length?'<div style="margin-top:14px;color:#c8d0c7">'+escapeHtml(d.notes.join(' '))+'</div>':'')+
+   '<div style="margin-top:22px;display:flex;gap:10px;flex-wrap:wrap"><button class="btn" onclick="openAIDemo()">Build my AI employee ↗</button>'+(selectedChannel==='Instagram'||selectedChannel==='Facebook'?'<a class="btn secondary" href="/api/meta/connect">Connect '+escapeHtml(selectedChannel)+' ↗</a>':'')+'</div>';
+ }catch(e){
+  progress.innerHTML='<b>ANALYSIS COULD NOT READ THE SOURCE</b><br>'+escapeHtml(e.message)+'<br><small>For Instagram/Facebook, use the official Connect flow for full account data.</small>';
+ }
+}
+
+async function openAIDemo(){
+ const url=document.getElementById('sourceUrl').value.trim();
+ const channel=selectedChannel;
+ const host=url.replace(/^https?:\/\//i,'').split('/')[0]||'Your business';
+ document.getElementById('demoBusiness').textContent=host;
+ document.getElementById('demoChannel').textContent=channel+' / AI employee';
+ const chat=document.getElementById('testChat'); chat.classList.remove('hidden');
+ const log=document.getElementById('testLog'); log.innerHTML='';
+ try{
+  const r=await fetch('/api/demo/activate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({business:(JSON.parse(analyzedKnowledge||'{}').businessName||host),channel,job:'support',knowledge:analyzedKnowledge,tone:'Professional & friendly',escalation:'Ask a human when unsure',actions:['Reply to customers','Answer business questions','Escalate uncertain requests']})});
+  const d=await r.json(); if(!r.ok) throw new Error(d.error||'Could not activate test');
+  testToken=d.token; testAgentId=d.agent.id;
+  document.getElementById('testMode').textContent=(d.mode==='live-ai'?'AI LIVE':'ENGINE READY').toUpperCase();
+  log.innerHTML='<div class="chat-bubble ai"><small>NEXUS AI</small>Business Brain loaded. Ask me something about this business.</div>';
+ }catch(e){
+  document.getElementById('testMode').textContent='SERVER ERROR';
+  log.innerHTML='<div class="chat-bubble ai"><small>NEXUS</small>'+escapeHtml(e.message)+'</div>';
+ }
+ chat.scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+async function demoPrompt(text){document.getElementById('testMessage').value=text;await sendTestMessage();}
+async function sendTestMessage(){
+ const input=document.getElementById('testMessage'); const text=input.value.trim(); if(!text)return;
+ const log=document.getElementById('testLog');
+ log.innerHTML+='<div class="chat-bubble customer"><small>CUSTOMER / '+escapeHtml(selectedChannel)+'</small>'+escapeHtml(text)+'</div>'; input.value='';
+ if(!testAgentId){log.innerHTML+='<div class="chat-bubble ai"><small>NEXUS</small>Please analyze the business link first.</div>';return;}
+ try{
+  const r=await fetch('/api/agent/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({agentId:testAgentId,message:text,channel:selectedChannel})});
+  const d=await r.json(); if(!r.ok) throw new Error(d.error||'AI request failed');
+  log.innerHTML+='<div class="chat-bubble ai"><small>NEXUS AI / '+escapeHtml(selectedChannel)+'</small>'+escapeHtml(d.response)+'</div>';
+ }catch(e){log.innerHTML+='<div class="chat-bubble ai"><small>NEXUS</small>'+escapeHtml(e.message)+'</div>';}
+ log.scrollTop=log.scrollHeight;
+}
+function escapeHtml(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));}
+</script>
+</body>
+</html>
