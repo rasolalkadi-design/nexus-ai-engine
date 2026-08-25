@@ -23,7 +23,7 @@ const META_REDIRECT_URI =
   `${BASE_URL}/api/meta/callback`;
 
 const ROOT_DIR = __dirname;
-const PUBLIC_DIR = path.join(ROOT_DIR, 'public');
+const PUBLIC_DIR = path.join(ROOT_DIR, 'public', 'public');
 
 const ROOT_INDEX = path.join(ROOT_DIR, 'index.html');
 const PUBLIC_INDEX = path.join(PUBLIC_DIR, 'index.html');
