@@ -660,10 +660,141 @@ ${message}
   if (!response.ok) {
     throw new Error(
       data?.error?.message ||
+async function answerWithAI(agent, message, channel) {
+  if (!OPENAI_API_KEY) {
+    return {
+      response:
+        'The AI provider is not configured on this server yet.',
+      live: false,
+      reason: 'OPENAI_API_KEY_MISSING'
+    };
+  }
+
+  const input = `
+BUSINESS:
+${agent.business}
+
+CHANNEL:
+${channel || agent.channel}
+
+VERIFIED BUSINESS KNOWLEDGE:
+${agent.knowledge || '(none)'}
+
+CUSTOMER MESSAGE:
+${message}
+`.trim();
+
+  const response = await fetch(
+    'https://api.openai.com/v1/responses',
+    {
+      method: 'POST',
+
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${OPENAI_API_KEY}`
+      },
+
+      body: JSON.stringify({
+        model: OPENAI_MODEL,
+
+        instructions: agent.system_prompt,
+
+        input,
+
+        tools: [
+          {
+            type: "function",
+            name: "escalate_to_human",
+            description:
+              "Escalate the customer conversation to a human representative when the customer requests a human or the AI cannot safely answer.",
+
+            parameters: {
+              type: "object",
+
+              properties: {
+                reason: {
+                  type: "string",
+                  description:
+                    "Why human assistance is required."
+                }
+              },
+
+              required: ["reason"],
+
+              additionalProperties: false
+            },
+
+            strict: true
+          }
+        ],
+
+        max_output_tokens: 500
+      })
+    }
+  );
+
+  let data;
+
+  try {
+    data = await response.json();
+  } catch {
+    throw new Error(
+      `OpenAI returned an invalid JSON response (${response.status}).`
+    );
+  }
+
+  if (!response.ok) {
+    throw new Error(
+      data?.error?.message ||
       `OpenAI request failed with HTTP ${response.status}.`
     );
   }
 
+  /*
+    Check if the AI requested a tool/action.
+  */
+  const functionCall = Array.isArray(data.output)
+    ? data.output.find(
+        item => item.type === 'function_call'
+      )
+    : null;
+
+  if (functionCall) {
+    let args = {};
+
+    try {
+      args = JSON.parse(
+        functionCall.arguments || '{}'
+      );
+    } catch {
+      args = {};
+    }
+
+    const actionResult =
+      await executeAgentAction(
+        agent,
+        functionCall.name,
+        args
+      );
+
+    if (
+      functionCall.name === 'escalate_to_human' &&
+      actionResult.success
+    ) {
+      return {
+        response:
+          'Sure. I’ll connect you with a human representative.',
+        live: true,
+        action: 'escalate_to_human',
+        actionResult,
+        responseId: data.id || null
+      };
+    }
+  }
+
+  /*
+    Normal AI response.
+  */
   const text = extractOpenAIText(data);
 
   if (!text) {
