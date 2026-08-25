@@ -542,7 +542,37 @@ function extractOpenAIText(data) {
     .join(' ')
     .trim();
 }
+async function executeAgentAction(agent, action, args = {}) {
 
+  if (action === "escalate_to_human") {
+
+    db.prepare(`
+      INSERT INTO messages
+      (agent_id, external_id, direction, message, response)
+      VALUES (?, ?, ?, ?, ?)
+    `).run(
+      agent.id,
+      `handoff-${crypto.randomUUID()}`,
+      'system',
+      JSON.stringify({
+        type: "human_handoff",
+        reason: args.reason || "Customer requested human assistance"
+      }),
+      "HUMAN_HANDOFF_REQUESTED"
+    );
+
+    return {
+      success: true,
+      action: "escalate_to_human",
+      message: "A human representative has been requested."
+    };
+  }
+
+  return {
+    success: false,
+    error: `Unknown action: ${action}`
+  };
+}
 async function answerWithAI(agent, message, channel) {
   if (!OPENAI_API_KEY) {
     return {
@@ -579,11 +609,41 @@ ${message}
       },
 
       body: JSON.stringify({
-        model: OPENAI_MODEL,
-        instructions: agent.system_prompt,
-        input,
-        max_output_tokens: 500
-      })
+  model: OPENAI_MODEL,
+
+  instructions: agent.system_prompt,
+
+  input,
+
+  tools: [
+    {
+      type: "function",
+      name: "escalate_to_human",
+      description:
+        "Escalate the customer conversation to a human representative when the customer requests a human or the AI cannot safely answer.",
+
+      parameters: {
+        type: "object",
+
+        properties: {
+          reason: {
+            type: "string",
+            description:
+              "Why human assistance is required."
+          }
+        },
+
+        required: ["reason"],
+
+        additionalProperties: false
+      },
+
+      strict: true
+    }
+  ],
+
+  max_output_tokens: 500
+})
     }
   );
 
